@@ -18,18 +18,31 @@ public class GISDBConnectionFactory {
     }
     
     /**
-     * 获取数据库的连接对象
+     * 获取PostGIS数据库数据源
      * @param type
      * @param userName
      * @param password
      * @param instance
      * @return
      */
-    public static GISDBConnection getDBConnection(String type,String userName,String password,String instance){
-    	GISDBConnection gisDBConnection = null;
-    	if(type.equals("postgis")){
-    		gisDBConnection = new PostGISDBConnection();
-		}
+    public static PostGISDBConnection getPostGISDBConnection(String userName,String password,String url){
+    	PostGISDBConnection gisDBConnection = null;
+    	gisDBConnection = new PostGISDBConnection(userName,password,url);
+    	return gisDBConnection;
+    }
+    
+    /**
+     * 获取PostGIS数据库数据源
+     * @param server
+     * @param userName
+     * @param password
+     * @param port
+     * @param database
+     * @return
+     */
+    public static PostGISDBConnection getPostGISDBConnection(String server,String userName,String password ,String port,String database){
+    	PostGISDBConnection gisDBConnection = null;
+    	gisDBConnection = new PostGISDBConnection(server,userName,password,port,database);
     	return gisDBConnection;
     }
 
