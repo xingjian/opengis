@@ -1,0 +1,10 @@
+google key:
+ABQIAAAAQfJrm1ytpxlOB-dYDYbthBRTHVHOiibqsgm0Pv9Iars8uByrAhTXznbpdO-XDNbMBWHtTVyArdY0Gg
+//js方式
+<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=true_or_false&amp;key=ABQIAAAAQfJrm1ytpxlOB-dYDYbthBRTHVHOiibqsgm0Pv9Iars8uByrAhTXznbpdO-XDNbMBWHtTVyArdY0Gg" type="text/javascript"></script>
+//flex方式
+<maps:Map xmlns:maps="com.google.maps.*" id="map" mapevent_mapready="onMapReady(event)" width="100%" height="100%"
+    key="ABQIAAAAQfJrm1ytpxlOB-dYDYbthBRTHVHOiibqsgm0Pv9Iars8uByrAhTXznbpdO-XDNbMBWHtTVyArdY0Gg"/>
+//直接请求网址
+http://maps.google.com/maps/geo?q=1600+Amphitheatre+Parkway,+Mountain+View,+CA&output=json&oe=utf8\
+&sensor=true_or_false&key=ABQIAAAAQfJrm1ytpxlOB-dYDYbthBRTHVHOiibqsgm0Pv9Iars8uByrAhTXznbpdO-XDNbMBWHtTVyArdY0Gg        
