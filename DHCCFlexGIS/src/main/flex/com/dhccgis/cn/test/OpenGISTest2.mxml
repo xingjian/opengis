@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" xmlns:os="http://openscales.org"
+			   xmlns:mx="library://ns.adobe.com/flex/halo" minWidth="1024" minHeight="768">
+	<s:layout>
+		<s:BasicLayout/>
+	</s:layout>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import org.openscales.core.Map;
+			import org.openscales.core.feature.CustomMarker;
+			import org.openscales.core.feature.PointFeature;
+			import org.openscales.core.layer.FeatureLayer;
+			import org.openscales.core.style.Style;
+			import org.openscales.geometry.basetypes.Location;
+			import org.openscales.proj4as.ProjProjection;
+			
+			[Bindable] private var map:Map = null;
+			private function initMap():void {
+				map = fxmap.map;
+				var markers:FeatureLayer = new FeatureLayer("NameOfYourLayerWithMarkers");
+				markers.projection = new ProjProjection("EPSG:4326");
+				markers.generateResolutions(19);
+				markers.style = Style.getDefaultPointStyle();
+				
+				//add the first marker
+				var marker:PointFeature = PointFeature.createPointFeature(new Location(117.15396,36.91340));
+				markers.addFeature(marker);
+				
+				//add a second marker
+				marker = PointFeature.createPointFeature(new Location(117.15396,36.91340));
+				markers.addFeature(marker);
+				
+				//add marker with different symbol, writing url address
+				markers.addFeature(CustomMarker.
+					createUrlBasedMarker("http://earth.google.com/intl/en_uk/outreach/images/add_placemark.png",
+						new Location(117.15396,36.91340)));
+				
+				//add the layer
+				map.addLayer(markers);
+			}
+		]]>
+	</fx:Script>
+	<os:Map id="fxmap" width="100%" height="100%" zoom="25" center="117.15396,36.91340">
+		<!--
+		<os:Mapnik name="mapnik" />
+		-->
+		<os:WMS name="Germany"
+				url="http://localhost:8686/geoserver/wms"
+				layers="taianlayers" symbolColor="0x00000"
+				width="660"
+				height="330"
+				format="image/jpeg"/>
+		<os:MousePosition x="10"  y="{fxmap.height-20}"  displayProjection="EPSG:4326"/>
+		<os:DragHandler/>
+		<os:ClickHandler/>
+		<os:WheelHandler/>
+	</os:Map>
+	<os:PanZoom map="{map}"	 x="{fxmap.x+10}" y="{fxmap.y+10}"/>
+</s:Application>

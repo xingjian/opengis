@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"  xmlns:s="library://ns.adobe.com/flex/spark"  xmlns:mx="library://ns.adobe.com/flex/mx"
+			   			width="100%"  height="100%" xmlns:os="http://openscales.org"  creationComplete="initMap();" xmlns:customapp="com.dhccgis.cn.customapp.*">
+	<fx:Declarations>
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.containers.Panel;
+			import mx.events.ListEvent;
+			import org.openscales.core.Map;
+			import org.openscales.core.control.ScaleLine;
+			import org.openscales.geometry.basetypes.Bounds;
+			
+			[Bindable] 
+			private var map:Map = null;
+			[Bindable]
+			private var baseAppArray:ArrayCollection = new ArrayCollection();
+			[Embed(source="images/layerManageIcon.png")]
+			public var layerManageIcon:Class;
+			[Embed(source="images/spaceQueryIcon.png")]
+			public var spaceQueryIcon:Class;
+			
+			private function initMap():void {
+				map = fxmap.map;
+				var bounds:Bounds = new Bounds();
+				bounds.top = 36.250634038;
+				bounds.left = 117.006428675;
+				bounds.bottom = 36.143737962;
+				bounds.right = 117.186907325;
+				map.zoomToExtent(bounds);
+				
+				/** 初始化baseAppArray**/
+				var layerManagerObject:Object = {label:"图层管理",uri:"layermanager",icon:"layerManageIcon"};
+				var spaceQueryObject:Object = {label:"空间查询",uri:"spaceQuery",icon:"spaceQueryIcon"};
+				baseAppArray.addItem(layerManagerObject);
+				baseAppArray.addItem(spaceQueryObject);
+				
+				/** 初始化比例尺**/
+				var scaleLine:ScaleLine = new ScaleLine();
+				scaleLine.map = this.map;
+				scaleLine.x = map.size.w -100;
+				scaleLine.y = map.size.h -80;
+				map.addChild(scaleLine);
+			}
+
+			/**
+			 * tilelist的itemclick事件处理
+			 **/
+			protected function tilelist_itemClickHandler(event:ListEvent):void
+			{
+				var uri:String = event.currentTarget.selectedItem.uri;
+				switch(uri){
+					case 'layermanager':changeRightCanvas(new LayerManagerPanel()); break;
+				}
+			}
+			
+			public function changeRightCanvas(panel:Panel):void{
+				rightCanvas.removeAllChildren();
+				
+				if(panel as LayerManagerPanel){
+					var layerManagerPanel:LayerManagerPanel = panel as LayerManagerPanel;
+					layerManagerPanel.map = fxmap.map;
+				}
+				rightCanvas.addChild(panel);
+			}
+
+		]]>
+	</fx:Script>
+	<mx:HDividedBox height="100%" width="100%" horizontalGap="4" horizontalAlign="center">
+		<mx:Accordion  width="15%" height="100%" horizontalCenter="true" headerStyleName="accordionHeader">
+			<mx:VBox label="基础应用" width="100%" height="100%" horizontalAlign="center" verticalAlign="top">
+				<mx:TileList height="100%" width="100%" maxColumns="1" itemClick="tilelist_itemClickHandler(event)"  direction="vertical" allowMultipleSelection="false" columnCount="1"  dataProvider="{baseAppArray}">
+				</mx:TileList>
+			</mx:VBox>
+		</mx:Accordion>
+	<mx:Canvas width="70%" height="100%">
+		<os:Map id="fxmap" width="100%"  height="100%"  zoom="6" center="117.106,35.185">
+			<os:WMS name="泰安基础地图"
+					url="http://localhost:8686/geoserver/wms"
+					layers="ta_dhccgis_map" symbolColor="0x00000"
+					width="660" height="330"
+					format="image/jpeg"/>
+			<os:MousePosition x="10"   y="{fxmap.height-20}"  displayProjection="EPSG:4326"/>
+			<os:DragHandler/>
+			<os:ClickHandler/>
+			<os:WheelHandler/>
+			<os:PanZoom map="{map}" x="{fxmap.x+10}" y="{fxmap.y+10}"/>
+		</os:Map>
+	</mx:Canvas>
+	<mx:Canvas width="15%" height="100%" id="rightCanvas">
+		<customapp:LayerManagerPanel map="{map}" width="100%" height="100%" />
+	</mx:Canvas>
+	</mx:HDividedBox>
+</s:Application>

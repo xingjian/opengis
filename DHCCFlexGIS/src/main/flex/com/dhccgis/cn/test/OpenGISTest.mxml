@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"  xmlns:s="library://ns.adobe.com/flex/spark"  xmlns:mx="library://ns.adobe.com/flex/mx"
+			   			width="100%"  height="100%" xmlns:os="http://openscales.org"  creationComplete="initMap();">
+	<fx:Declarations>
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import org.openscales.core.Map;
+			import org.openscales.geometry.basetypes.Bounds;
+			
+			[Bindable] private var map:Map = null;
+			private function initMap():void {
+				map = fxmap.map;
+				var bounds:Bounds = new Bounds();
+				bounds.top = 36.250634038;
+				bounds.left = 117.006428675;
+				bounds.bottom = 36.143737962;
+				bounds.right = 117.186907325;
+				map.zoomToExtent(bounds);
+			}
+		]]>
+	</fx:Script>
+	<os:Map id="fxmap" width="100%"  height="100%"  zoom="6" >
+		<os:WMS name="Germany"
+				url="http://localhost:8686/geoserver/wms"
+				layers="ta_dhccgis_map" symbolColor="0x00000"
+				width="660" height="330"
+				format="image/jpeg"/>
+		<os:MousePosition x="10"  y="{fxmap.height-20}"  displayProjection="EPSG:4326"/>
+		<os:DragHandler/>
+		<os:ClickHandler/>
+		<os:WheelHandler/>
+	</os:Map>
+	<os:PanZoom map="{map}"	 x="{fxmap.x+10}" y="{fxmap.y+10}"/>
+</s:Application>
