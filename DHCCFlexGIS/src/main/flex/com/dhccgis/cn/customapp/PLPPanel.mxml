@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Panel xmlns:fx="http://ns.adobe.com/mxml/2009" layout="vertical" creationComplete="init()"
+		  xmlns:s="library://ns.adobe.com/flex/spark" title="点线面PLP"
+		  xmlns:mx="library://ns.adobe.com/flex/mx" width="100%" height="100%">
+
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			import mx.rpc.remoting.RemoteObject;
+			
+			import org.openscales.core.Map;
+			import org.openscales.core.feature.LineStringFeature;
+			import org.openscales.core.feature.PolygonFeature;
+			import org.openscales.core.layer.FeatureLayer;
+			import org.openscales.core.style.Style;
+			import org.openscales.geometry.Geometry;
+			import org.openscales.geometry.LineString;
+			import org.openscales.geometry.LinearRing;
+			import org.openscales.geometry.Point;
+			import org.openscales.geometry.Polygon;
+			import org.openscales.geometry.basetypes.Location;
+			import org.openscales.proj4as.ProjProjection;
+			
+			import util.Global;
+			
+			public var dbServiceRomote:RemoteObject;
+			
+			[Bindable]
+			public var defaultTableNames:String;
+			[Bindable]
+			public var geometryStr:String;
+			public var drawGeometryString:String;
+			public var map:Map;
+			
+			/** 初始化方法 **/
+			public function init():void{
+				dbServiceRomote = Global.getRemoteObject("dbService",successDB,faultDB);
+				defaultTableNames = "hospital:医院:点对象"+"\n"+"sde_tl:铁路:线对象"+"\n"+"sde_jmd:居民地:面的对象";
+				geometryStr = defaultTableNames;
+			}
+			
+			/** 成功返回 **/
+			public function successDB(event:ResultEvent):void{
+				var resultStr:String = event.result as String;
+				geometryStr = defaultTableNames+"\n"+resultStr;
+				var index:int = resultStr.indexOf("(");
+				drawGeometryString = resultStr.substr(index+1,resultStr.length-index-2);
+			}
+			
+			/** 失败处理 **/
+			public function faultDB(event:FaultEvent):void{
+				var faultStr:String = event.message.toString();
+				geometryStr = defaultTableNames+"\n"+faultStr;
+			}
+			
+			/** 查询点击 **/
+			public function searchClick(event:Event):void{
+				dbServiceRomote.getPointStr(tableNameText.text,gidText.text);	
+			}
+			
+			/** 绘制click事件 **/
+			protected function drawBtn_clickHandler(event:MouseEvent):void
+			{
+				var pointArray:Array = drawGeometryString.split(",");
+				var lineString:LineString = null;
+				var lineStringFeature:LineStringFeature = null;
+				for(var i:int=0;i<=pointArray.length-1;i++){
+					var pointStr:String = pointArray[i];
+					var arrayTemp:Array = pointStr.split(" ");
+					var pointTemp:org.openscales.geometry.Point = new org.openscales.geometry.Point();
+					pointTemp.x = arrayTemp[0];
+					pointTemp.y = arrayTemp[1];
+					if(null==lineString){
+						lineString = new LineString(new <Number>[pointTemp.x,pointTemp.y]);
+						lineStringFeature = new LineStringFeature(lineString,null, Style.getDefaultLineStyle(),true);
+					}else{
+						lineString.addPoint(pointTemp.x,pointTemp.y);
+					}
+					
+				}
+				var graphicLayer:FeatureLayer = map.getLayerByName("graphicLayer") as FeatureLayer;
+				graphicLayer.reset();
+				graphicLayer.addFeature(lineStringFeature);
+				map.zoomToExtent(lineStringFeature.geometry.bounds);
+			}
+			
+			/** 绘制click事件 **/
+			protected function drawBtn1_clickHandler(event:MouseEvent):void
+			{
+				drawGeometryString = drawGeometryString.substr(1,drawGeometryString.indexOf(")")-2);
+				var pointArray:Array = drawGeometryString.split(",");
+				var polygon:Polygon = null;
+				var polygonFeature:PolygonFeature = null;
+				var lring:LinearRing = null;
+				for(var i:int=0;i<=pointArray.length-1;i++){
+					var pointStr:String = pointArray[i];
+					var arrayTemp:Array = pointStr.split(" ");
+					var pointTemp:org.openscales.geometry.Point = new org.openscales.geometry.Point();
+					pointTemp.x = arrayTemp[0];
+					pointTemp.y = arrayTemp[1];
+					
+					if(null==polygon){
+						lring = new LinearRing(new <Number>[pointTemp.x,pointTemp.y]);
+						polygon = new Polygon(new <Geometry>[lring]);
+						polygonFeature = new PolygonFeature(polygon,null,null,true);
+						polygonFeature.style = Style.getDrawSurfaceStyle();
+					}else{
+						lring.addPoint(pointTemp.x,pointTemp.y);
+					}
+					
+				}
+				var graphicLayer:FeatureLayer = map.getLayerByName("graphicLayer") as FeatureLayer;
+				graphicLayer.reset();
+				graphicLayer.addFeature(polygonFeature);
+				map.zoomToExtent(polygonFeature.geometry.bounds);
+			}
+			
+		]]>
+	</fx:Script>
+	<mx:Form>
+		<mx:FormItem label="表名:">
+			<s:TextInput id="tableNameText" width="100" text="sde_jmd" />
+		</mx:FormItem>
+		<mx:FormItem label="gid:">
+			<s:TextInput id="gidText" width="100" text="1" />
+		</mx:FormItem>
+	</mx:Form>
+	<s:Button label="查询" click="searchClick(event)" />
+	<s:Label text="字符串:" />
+	<s:TextArea editable="false" width="100%" height="100%" text="{geometryStr}" />
+	<mx:HBox>
+		<s:Button id="drawBtn" label="绘制Line" click="drawBtn_clickHandler(event)" />
+		<s:Button id="drawBtn1" label="绘制Polygon" click="drawBtn1_clickHandler(event)" />
+	</mx:HBox>
+</mx:Panel>

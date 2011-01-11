@@ -5,36 +5,70 @@
 	</fx:Declarations>
 	<fx:Script>
 		<![CDATA[
+			import com.dhccgis.cn.customapp.BufferePanel;
+			import com.dhccgis.cn.customapp.PLPPanel;
+			import com.dhccgis.cn.customapp.SpaceQueryPanel;
+			
 			import mx.collections.ArrayCollection;
 			import mx.containers.Panel;
 			import mx.events.ListEvent;
+			
 			import org.openscales.core.Map;
 			import org.openscales.core.control.ScaleLine;
+			import org.openscales.core.handler.feature.SelectFeaturesHandler;
+			import org.openscales.core.handler.mouse.ClickHandler;
+			import org.openscales.core.layer.FeatureLayer;
+			import org.openscales.core.layer.Layer;
 			import org.openscales.geometry.basetypes.Bounds;
 			
 			[Bindable] 
 			private var map:Map = null;
 			[Bindable]
 			private var baseAppArray:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			private var baseDataArray:ArrayCollection = new ArrayCollection();
 			[Embed(source="images/layerManageIcon.png")]
 			public var layerManageIcon:Class;
 			[Embed(source="images/spaceQueryIcon.png")]
 			public var spaceQueryIcon:Class;
+			[Embed(source="images/buffereAnalyseIcon.png")]
+			public var buffereAnalyseIcon:Class;
+			[Embed(source="images/plp.png")]
+			public var plpIcon:Class;
+			
+			public var graphicLayer:FeatureLayer;
 			
 			private function initMap():void {
 				map = fxmap.map;
+				graphicLayer = new FeatureLayer("graphicLayer");
+				graphicLayer.name = "graphicLayer";
+				graphicLayer.map = map;
+				map.addLayer(graphicLayer);
 				var bounds:Bounds = new Bounds();
 				bounds.top = 36.250634038;
 				bounds.left = 117.006428675;
 				bounds.bottom = 36.143737962;
 				bounds.right = 117.186907325;
 				map.zoomToExtent(bounds);
+				var selectHandler: SelectFeaturesHandler = new SelectFeaturesHandler();
+				selectHandler.enableClickSelection = false;
+				selectHandler.enableBoxSelection = false;
+				selectHandler.enableOverSelection = true;
+				selectHandler.active = true;
+				var clickHandler:ClickHandler = new ClickHandler();
 				
+				map.addHandler(selectHandler);
+				map.addHandler(clickHandler);
 				/** 初始化baseAppArray**/
 				var layerManagerObject:Object = {label:"图层管理",uri:"layermanager",icon:"layerManageIcon"};
 				var spaceQueryObject:Object = {label:"空间查询",uri:"spaceQuery",icon:"spaceQueryIcon"};
+				var buffereObject:Object = {label:"周边分析",uri:"buffere",icon:"buffereAnalyseIcon"};
+				var plpObject:Object = {label:"点线面展示",uri:"plp",icon:"plpIcon"};
 				baseAppArray.addItem(layerManagerObject);
 				baseAppArray.addItem(spaceQueryObject);
+				baseAppArray.addItem(buffereObject);
+				
+				baseDataArray.addItem(plpObject);
 				
 				/** 初始化比例尺**/
 				var scaleLine:ScaleLine = new ScaleLine();
@@ -52,17 +86,36 @@
 				var uri:String = event.currentTarget.selectedItem.uri;
 				switch(uri){
 					case 'layermanager':changeRightCanvas(new LayerManagerPanel()); break;
+					case 'spaceQuery' : changeRightCanvas(new SpaceQueryPanel());break;
+					case 'buffere' : changeRightCanvas(new BufferePanel());break;
+					case 'plp' : changeRightCanvas(new PLPPanel());break;
 				}
+				
 			}
 			
 			public function changeRightCanvas(panel:Panel):void{
 				rightCanvas.removeAllChildren();
-				
 				if(panel as LayerManagerPanel){
 					var layerManagerPanel:LayerManagerPanel = panel as LayerManagerPanel;
 					layerManagerPanel.map = fxmap.map;
+				}else if(panel as SpaceQueryPanel){
+					var spaceQueryPanel:SpaceQueryPanel = panel as SpaceQueryPanel;
+					spaceQueryPanel.map = fxmap.map;
+				}else if(panel as BufferePanel){
+					var buffreePanel:BufferePanel = panel as BufferePanel;
+					buffreePanel.map = fxmap.map;
+				}else if(panel as PLPPanel){
+					var plpPanel:PLPPanel = panel as PLPPanel;
+					plpPanel.map = fxmap.map;
 				}
 				rightCanvas.addChild(panel);
+			}
+
+
+			protected function fxmap_clickHandler(event:MouseEvent):void
+			{
+				var hospitalLayer:Layer = fxmap.map.getLayerByName("hospital");
+				//hospitalLayer.
 			}
 
 		]]>
@@ -73,12 +126,16 @@
 				<mx:TileList height="100%" width="100%" maxColumns="1" itemClick="tilelist_itemClickHandler(event)"  direction="vertical" allowMultipleSelection="false" columnCount="1"  dataProvider="{baseAppArray}">
 				</mx:TileList>
 			</mx:VBox>
+			<mx:VBox label="测试应用" width="100%" height="100%" horizontalAlign="center" verticalAlign="top">
+				<mx:TileList height="100%" width="100%" maxColumns="1" itemClick="tilelist_itemClickHandler(event)"  direction="vertical" allowMultipleSelection="false" columnCount="1"  dataProvider="{baseDataArray}">
+				</mx:TileList>
+			</mx:VBox>
 		</mx:Accordion>
 	<mx:Canvas width="70%" height="100%">
-		<os:Map id="fxmap" width="100%"  height="100%"  zoom="6" center="117.106,35.185">
+		<os:Map id="fxmap" width="100%"  height="100%" click="fxmap_clickHandler(event)"  zoom="6" center="117.106,35.185">
 			<os:WMS name="泰安基础地图"
 					url="http://localhost:8686/geoserver/wms"
-					layers="ta_dhccgis_map" symbolColor="0x00000"
+					layers="ta_dhccgis_map,hospital" symbolColor="0x00000"
 					width="660" height="330"
 					format="image/jpeg"/>
 			<os:MousePosition x="10"   y="{fxmap.height-20}"  displayProjection="EPSG:4326"/>
