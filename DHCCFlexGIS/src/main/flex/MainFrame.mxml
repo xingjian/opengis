@@ -8,11 +8,9 @@
 			import com.dhccgis.cn.customapp.BufferePanel;
 			import com.dhccgis.cn.customapp.PLPPanel;
 			import com.dhccgis.cn.customapp.SpaceQueryPanel;
-			
 			import mx.collections.ArrayCollection;
 			import mx.containers.Panel;
 			import mx.events.ListEvent;
-			
 			import org.openscales.core.Map;
 			import org.openscales.core.control.ScaleLine;
 			import org.openscales.core.handler.feature.SelectFeaturesHandler;
@@ -35,6 +33,8 @@
 			public var buffereAnalyseIcon:Class;
 			[Embed(source="images/plp.png")]
 			public var plpIcon:Class;
+			[Embed(source="images/buffer.png")]
+			public var bufferIcon:Class;
 			
 			public var graphicLayer:FeatureLayer;
 			
@@ -64,11 +64,13 @@
 				var spaceQueryObject:Object = {label:"空间查询",uri:"spaceQuery",icon:"spaceQueryIcon"};
 				var buffereObject:Object = {label:"周边分析",uri:"buffere",icon:"buffereAnalyseIcon"};
 				var plpObject:Object = {label:"点线面展示",uri:"plp",icon:"plpIcon"};
+				var bufferObject:Object = {label:"缓冲对象",uri:"buffer",icon:"bufferIcon"};
 				baseAppArray.addItem(layerManagerObject);
 				baseAppArray.addItem(spaceQueryObject);
 				baseAppArray.addItem(buffereObject);
 				
 				baseDataArray.addItem(plpObject);
+				baseDataArray.addItem(bufferObject);
 				
 				/** 初始化比例尺**/
 				var scaleLine:ScaleLine = new ScaleLine();

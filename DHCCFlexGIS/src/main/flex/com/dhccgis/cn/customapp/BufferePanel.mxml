@@ -1,25 +1,145 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ns:Panel xmlns:fx="http://ns.adobe.com/mxml/2009" title="周边分析" creationComplete="init()"
-		  xmlns:s="library://ns.adobe.com/flex/spark" 
-		  xmlns:mx="library://ns.adobe.com/flex/halo" xmlns:ns="library://ns.adobe.com/flex/mx" width="100%" height="100%" xmlns:openscales="http://openscales.org">
+<mx:Panel xmlns:fx="http://ns.adobe.com/mxml/2009" layout="vertical" creationComplete="init()"
+		  xmlns:s="library://ns.adobe.com/flex/spark" title="缓冲区分析"
+		  xmlns:mx="library://ns.adobe.com/flex/mx" width="100%" height="100%">
 	<fx:Script>
 		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.collections.ArrayList;
+			import mx.controls.Alert;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			import mx.rpc.remoting.RemoteObject;
+			
 			import org.openscales.core.Map;
+			import org.openscales.core.feature.LineStringFeature;
 			import org.openscales.core.feature.Marker;
+			import org.openscales.core.feature.PointFeature;
+			import org.openscales.core.feature.PolygonFeature;
 			import org.openscales.core.layer.FeatureLayer;
+			import org.openscales.core.style.Style;
+			import org.openscales.geometry.Geometry;
+			import org.openscales.geometry.LineString;
+			import org.openscales.geometry.LinearRing;
 			import org.openscales.geometry.Polygon;
+			import org.openscales.geometry.basetypes.Location;
+			import org.openscales.geometry.basetypes.Pixel;
+			import org.openscales.proj4as.ProjProjection;
 			import org.osmf.traits.BufferableTrait;
+			
+			import util.Global;
 			[Bindable]
 			public var map:Map;
+			public var buffereRemoting:RemoteObject;
+			[Bindable]
+			public var result:String;
+			public var bufferPointFeature:PointFeature;
 			
 			public function init():void{
-				drawGraphicTest();
+				buffereRemoting = Global.getRemoteObject("dbService",successHandler,failHandler);
 			}
 			
-			public function drawGraphicTest():void{
-				var fl:FeatureLayer = map.getLayerByName("graphicLayer") as FeatureLayer;
-				//var polygon:Polygon = new Polygon();
+			/** 成功 **/
+			public function successHandler(event:ResultEvent):void{
+				var arryListRet:ArrayCollection = event.result as ArrayCollection;
+				result = arryListRet.getItemAt(0).toString();
+				var drawGeometryString:String = result.substr(9,result.indexOf(")")-3);
+				var pointArray:Array = drawGeometryString.split(",");
+				var polygon:Polygon = null;
+				var polygonFeature:PolygonFeature = null;
+				var lring:LinearRing = null;
+				for(var i:int=0;i<=pointArray.length-1;i++){
+					var pointStr:String = pointArray[i];
+					var arrayTemp:Array = pointStr.split(" ");
+					var pointTemp:org.openscales.geometry.Point = new org.openscales.geometry.Point();
+					pointTemp.x = arrayTemp[0];
+					pointTemp.y = arrayTemp[1];
+					
+					if(null==polygon){
+						lring = new LinearRing(new <Number>[pointTemp.x,pointTemp.y]);
+						polygon = new Polygon(new <Geometry>[lring]);
+						polygonFeature = new PolygonFeature(polygon,null,null,true);
+						polygonFeature.style = Style.getDrawSurfaceStyle();
+					}else{
+						lring.addPoint(pointTemp.x,pointTemp.y);
+					}
+					
+				}
+				var graphicLayer:FeatureLayer = map.getLayerByName("graphicLayer") as FeatureLayer;
+				graphicLayer.addFeature(polygonFeature);
+				if(arryListRet.length>1){
+					for(var j:int=1;j<arryListRet.length;j++){
+						var pointStrTemp:String = arryListRet.getItemAt(j).toString();
+						var str1:String = pointStrTemp.substring(pointStrTemp.indexOf("(")+1,pointStrTemp.indexOf(")"));
+						var arr1:Array = str1.split(" ");
+						var x:Number = Number(arr1[0]);
+						var y:Number = Number(arr1[1]);
+						var gPoint:org.openscales.geometry.Point = new org.openscales.geometry.Point(x,y);
+						var pointMarker:org.openscales.core.feature.Marker = new Marker(gPoint);
+						graphicLayer.addFeature(pointMarker);
+					}
+				}
+				//map.zoomToExtent(polygonFeature.geometry.bounds);
 			}
+			
+			/** 失败 **/
+			public function failHandler(event:FaultEvent):void{
+				result = event.message.toString();
+			}
+			
+			
+			public function buffereClick(event:Event):void{
+				//buffereRemoting.pointBufferAnalyse("",bufferPointFeature.lonlat.x,bufferPointFeature.lonlat.y,radius.text);
+				 buffereRemoting.bufferAnalyse("hospital",bufferPointFeature.lonlat.x,bufferPointFeature.lonlat.y,radius.text);
+			}
+			
+			public function setMiddlePoint(event:Event):void{
+				if(map.hasEventListener(MouseEvent.CLICK)){
+					map.removeEventListener(MouseEvent.CLICK,mapClick);
+				}else{
+					map.addEventListener(MouseEvent.CLICK,mapClick);
+				}
+				
+			}
+			
+			public function mapClick(event:MouseEvent):void{
+				var drawLayer:FeatureLayer = map.getLayerByName("graphicLayer") as FeatureLayer;
+				drawLayer.reset();
+				var style:Style = Style.getDefaultPointStyle();
+				
+				var pixel:Pixel = new Pixel(drawLayer.mouseX ,drawLayer.mouseY);
+				var lonlat:Location = this.map.getLocationFromLayerPx(pixel);
+				
+				var point:org.openscales.geometry.Point = new org.openscales.geometry.Point(lonlat.lon,lonlat.lat);
+				
+				bufferPointFeature = new PointFeature(point, null, style);
+				bufferPointFeature.name = "中心点";
+				bufferPointFeature.geometry = new org.openscales.geometry.Point(lonlat.lon, lonlat.lat); 			
+				drawLayer.addFeature(bufferPointFeature);
+				bufferPointFeature.draw();
+			}
+			
+			public function clearClick(event:Event):void{
+				var drawLayer:FeatureLayer = map.getLayerByName("graphicLayer") as FeatureLayer;
+				drawLayer.reset();
+			}
+			
 		]]>
 	</fx:Script>
-</ns:Panel>
+	<mx:Form>
+		<mx:FormItem label="中心点:">
+			<s:TextInput id="lat" width="100" text="latTi" />
+			<s:TextInput id="lon" width="100" text="lonTi" />
+		</mx:FormItem>
+		<mx:FormItem label="半径:">
+			<s:TextInput id="radius" width="100" />
+		</mx:FormItem>
+		<mx:FormItem>
+			<s:Button label="选点" click="setMiddlePoint(event)" />
+			<s:Button label="缓冲" click="buffereClick(event)" />
+			<s:Button label="清除" click="clearClick(event)" />
+		</mx:FormItem>
+	</mx:Form>
+	<s:Label text="字符串:" />
+	<s:TextArea editable="false" width="100%" height="100%" text="{result}" />
+</mx:Panel>
