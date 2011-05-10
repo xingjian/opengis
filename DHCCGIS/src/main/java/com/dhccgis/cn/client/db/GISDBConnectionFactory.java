@@ -13,6 +13,8 @@ package com.dhccgis.cn.client.db;
 
 public class GISDBConnectionFactory {
 	
+	public static PostGISDBConnection postGISDBConnection;
+	
     public GISDBConnectionFactory(String type,String userName,String password,String instance){
 		
     }
@@ -26,9 +28,10 @@ public class GISDBConnectionFactory {
      * @return
      */
     public static PostGISDBConnection getPostGISDBConnection(String userName,String password,String url){
-    	PostGISDBConnection gisDBConnection = null;
-    	gisDBConnection = new PostGISDBConnection(userName,password,url);
-    	return gisDBConnection;
+    	if(null==postGISDBConnection){
+    		postGISDBConnection = new PostGISDBConnection(userName,password,url);
+    	}
+    	return postGISDBConnection;
     }
     
     /**
@@ -41,9 +44,10 @@ public class GISDBConnectionFactory {
      * @return
      */
     public static PostGISDBConnection getPostGISDBConnection(String server,String userName,String password ,String port,String database){
-    	PostGISDBConnection gisDBConnection = null;
-    	gisDBConnection = new PostGISDBConnection(server,userName,password,port,database);
-    	return gisDBConnection;
+    	if(null==postGISDBConnection){
+    		postGISDBConnection = new PostGISDBConnection(server,userName,password,port,database);
+    	}
+    	return postGISDBConnection;
     }
 
 }

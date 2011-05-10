@@ -4,7 +4,13 @@ package com.dhccgis.cn.client.db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.List;
+
+import net.sf.json.JSONObject;
 
 /**   
  * @Title: PostGISDBConnection.java 
@@ -70,7 +76,9 @@ public class PostGISDBConnection{
 	}
 	
 	/**
-	 * 关闭数据源连接
+	 * 功能：关闭数据源连接
+	 * 描述：无
+	 * 作者：xingjian
 	 */
 	public void closeConnection(){
 		if(con!=null){
@@ -82,5 +90,47 @@ public class PostGISDBConnection{
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	/**
+	 * 功能：执行sql语句
+	 * 说明： 只是用来执行单一的sql语句
+	 */
+	public void executeSQL(String sql){
+		try {
+			con.createStatement().execute(sql);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 功能：通过表名获取数据对象,默认就直接查询表,也可以添加模式.tableName
+	 * 说明：如果结果为一条数据就返回一个object,如果是多个对象就返回object的
+	 *      一个集合，空的话,返回null,封装数据采用json对象
+	 */
+	public List<Object> selectSqlByTableName(String tableName,String whereStr){
+		String sqlStr = "select * from "+tableName ;
+		if(null!=whereStr&&!whereStr.trim().endsWith("")){
+			sqlStr = sqlStr + whereStr;
+		}
+		try {
+			Statement statement = con.createStatement();
+			statement.execute(sqlStr);
+			ResultSet rs = statement.getResultSet();
+			ResultSetMetaData dsmd = rs.getMetaData();
+			while(rs.next()){
+			}
+			if(rs.isFirst()==rs.isLast()){
+				//值返回一个结果
+				String json = "{}";
+				dsmd.getColumnCount();
+			}else{
+				//返回多个结果
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

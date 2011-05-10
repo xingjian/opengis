@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+    xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+    <!-- 配置数据库服务对象 -->
+    <bean id="dbService" class="com.dhccgis.cn.service.impl.DBServiceImpl" autowire="byName" />
+    <!--空间查询服务对象-->
+    <bean id="spaceQueryService" class="com.dhccgis.cn.app.service.impl.SpaceQueryServiceImpl" />
+</beans>

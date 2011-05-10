@@ -20,6 +20,11 @@
                 <td><a href="page/test/googlemaptest.jsp">googlemaptest.jsp</a></td>
                 <td>页面加载google地图</td>
             </tr>
+            <tr>
+                <td>2</td><td>测试Flex页面加载</td>
+                <td><a href="MainFrame.html">flexgis页面</a></td>
+                <td>flexgis页面</td>
+            </tr>
 		</table>
 	</body>
 </html>
