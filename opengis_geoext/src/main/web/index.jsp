@@ -7,7 +7,10 @@
 	<script type="text/javascript" src="js/ext/ext-base.js"></script>
 	<script type="text/javascript" src="js/ext/ext-all.js"></script>
 	<script type="text/javascript" src="js/ext/ext-lang-zh_CN.js"></script>
+	<script src="<%=request.getContextPath()%>/js/openlayers/OpenLayers.js" type="text/javascript"></script>
+	<script src="<%=request.getContextPath()%>/js/geoext/GeoExt.js" type="text/javascript"></script>
 	<script type="text/javascript" src="js/index.js"></script>
+	<script type="text/javascript" src="js/main.js"></script>
 	<style type="text/css">
 		.head{
 			background-image:url("images/logo.jpg");

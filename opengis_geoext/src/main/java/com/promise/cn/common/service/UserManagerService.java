@@ -2,7 +2,6 @@
 
 package com.promise.cn.common.service;
 
-import com.promise.cn.common.domain.User;
 
 /**   
  * @类名: UserManagerService.java 

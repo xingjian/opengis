@@ -2,15 +2,13 @@
 
 package com.promise.cn.common.action;
 
-import org.omg.PortableInterceptor.SUCCESSFUL;
-
 import com.promise.cn.common.domain.User;
 import com.promise.cn.common.service.UserManagerService;
 
 /**   
  * @类名: LoginAction.java 
  * @包名: com.promise.cn.common.action 
- * @描述: TODO(用一句话描述该文件做什么) 
+ * @描述: 用户登录
  * @作者： promisePB xingjian@yeah.net   
  * @日期： 2011-6-1 下午11:14:44 
  * @版本： V1.0   
@@ -22,8 +20,12 @@ public class LoginAction{
 	
 	private User user;
 	
+	private boolean success;
+	
+	private String message;
+
 	/**
-	 * 检验用户登
+	 * 检验用户登录
 	 * 功能：
 	 * 描述：
 	 * @param userName
@@ -31,8 +33,7 @@ public class LoginAction{
 	 * @return
 	 */
 	public String checkLogin(){
-		System.out.println("LoginAction=="+user.getName());
-		//return userManagerService.checkLogin(user.getName(), user.getPwd());
+		this.success = true;
 		return "success";
 	}
 
@@ -48,5 +49,19 @@ public class LoginAction{
 		this.user = user;
 	}
 	
+	public boolean isSuccess() {
+		return success;
+	}
+
+	public void setSuccess(boolean success) {
+		this.success = success;
+	}
 	
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
 }

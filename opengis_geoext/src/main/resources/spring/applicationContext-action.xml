@@ -3,5 +3,10 @@
 	xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	
+	<bean id="baseAction" class="com.promise.cn.common.action.BaseAction" autowire="byName"  />
+	<!-- 登录action -->
 	<bean id="loginAction" class="com.promise.cn.common.action.LoginAction" autowire="byName"  />
+	<!-- 菜单action -->
+	<bean id="menuAction" class="com.promise.cn.common.action.MenuAction" autowire="byName" />
 </beans>

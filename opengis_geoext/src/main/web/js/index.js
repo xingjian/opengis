@@ -1,3 +1,4 @@
+Ext.BLANK_IMAGE_URL = 'js/ext/resources/images/default/s.gif';
 //刷新验证码函数
 function reloadcode(){
     var verify = document.getElementById('safecode');
@@ -10,7 +11,10 @@ Ext.onReady(function(){
 	var viewPort = new Ext.Viewport({
 			layout:'border',
 			items:[{
+				id:'centerViewPort',
 				region:'center',
+				layout:'fit',
+				border:false,
 				contentEl:'centerDiv'
  				},{
 				region:'north',
@@ -35,16 +39,27 @@ Ext.onReady(function(){
 		,maxLengthText: '验证码不能超过4个字符！'}],
 		buttonAlign:'center',
 		buttons:[{text:'登录',handler:function(){
-			if(loginForm.getForm().isValid()){   
+			if(loginForm.getForm().isValid()){ 
+				
 				 loginForm.form.doAction('submit',{
 				 	url:'login.action',
 				 	method:'post',
-				 	success:function(form,action){
-				 		window.location.href="testpage/geoext_test.jsp";
-				 	}
+				 	waitTitle:"请稍候",   
+                    waitMsg:"正在提交登录信息数据，请稍候...",   
+				 	success:function(form,action){ 
+				 		win.close();
+				 		wrc = Ext.getCmp('centerViewPort');
+						wrc.removeAll();
+						mainPn =  Ext.getCmp('mainPanel');
+						wrc.add(mainPn);
+						wrc.doLayout();
+	                },   
+                    failure:function(form,action){  
+                      Ext.Msg.alert('系统提示','登录失败，请检查登录信息！');
+                    } 
+				 	
+				 	
 				 });
-				 //直接跳转
-				/**window.location.href="testpage/geoext_test.jsp";*/
 			}
 		}},{text:'注册'},
 		{text:'重置',handler: function(){    

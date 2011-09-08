@@ -8,5 +8,9 @@
 		<action name="login" class="loginAction" method="checkLogin">
 			<result type="json"/>
 		</action>
+		<!-- 菜单 -->
+		<action name="menu" class="menuAction" method="getMenus">
+			<result type="json" />
+		</action>
 	</package>	
 </struts>
