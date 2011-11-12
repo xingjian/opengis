@@ -10,8 +10,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
-import net.sf.json.JSONObject;
-
 /**   
  * @Title: PostGISDBConnection.java 
  * @Package com.dhcc.gis.service 
