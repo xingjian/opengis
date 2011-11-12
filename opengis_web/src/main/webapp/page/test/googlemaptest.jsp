@@ -16,7 +16,7 @@
     }
 </script>
 </head>
-<body onload="initialize()" onunload="GUnload()">
-    <div id="map_canvas" style="width: 1200px; height: 768px"></div>
+	<body onload="initialize()" onunload="GUnload()">
+    <div id="map_canvas" style="width: 1024px; height: 768px"></div>
   </body>
 </html>
