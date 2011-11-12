@@ -38,7 +38,6 @@
 		    <artifactId>hibernate-c3p0</artifactId>  
 		    <version>4.0.0.Beta2</version>  
 		</dependency> 
-
 		<dependency>   
 		    <groupId>net.sf.json-lib</groupId>   
 		    <artifactId>json-lib</artifactId>   
