@@ -91,5 +91,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<outputDirectory>src/main/web/WEB-INF/classes</outputDirectory>
+	<testOutputDirectory>src/main/web/WEB-INF/test-classes</testOutputDirectory>
 	</build>
 </project>        
