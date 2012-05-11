@@ -12,7 +12,7 @@
 			
 			import org.openscales.core.Map;
 			import org.openscales.core.feature.Marker;
-			import org.openscales.core.layer.FeatureLayer;
+			import org.openscales.core.layer.VectorLayer;
 			import org.openscales.geometry.Point;
 			import org.openscales.geometry.basetypes.Location;
 			
@@ -39,7 +39,7 @@
 			
 			/** 定位功能的处理方式 **/
 			public function showPositionHandle(event:Event):void{
-				var fLayer:FeatureLayer = map.getLayerByName("graphicLayer") as FeatureLayer;
+				var fLayer:VectorLayer = map.getLayerByName("graphicLayer") as VectorLayer;
 				fLayer.reset();
 				var dgItem:Object = dg.selectedItem as Object;
 				var x:Number = dgItem.x;

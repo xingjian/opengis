@@ -16,7 +16,7 @@
 			import org.openscales.core.Map;
 			import org.openscales.core.feature.LineStringFeature;
 			import org.openscales.core.feature.PolygonFeature;
-			import org.openscales.core.layer.FeatureLayer;
+			import org.openscales.core.layer.VectorLayer;
 			import org.openscales.core.style.Style;
 			import org.openscales.geometry.Geometry;
 			import org.openscales.geometry.LineString;
@@ -83,7 +83,7 @@
 					}
 					
 				}
-				var graphicLayer:FeatureLayer = map.getLayerByName("graphicLayer") as FeatureLayer;
+				var graphicLayer:VectorLayer = map.getLayerByName("graphicLayer") as VectorLayer;
 				graphicLayer.reset();
 				graphicLayer.addFeature(lineStringFeature);
 				map.zoomToExtent(lineStringFeature.geometry.bounds);
@@ -114,7 +114,7 @@
 					}
 					
 				}
-				var graphicLayer:FeatureLayer = map.getLayerByName("graphicLayer") as FeatureLayer;
+				var graphicLayer:VectorLayer = map.getLayerByName("graphicLayer") as VectorLayer;
 				graphicLayer.reset();
 				graphicLayer.addFeature(polygonFeature);
 				map.zoomToExtent(polygonFeature.geometry.bounds);
