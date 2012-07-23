@@ -22,7 +22,7 @@
             </tr>
             <tr>
                 <td>2</td><td>测试Flex页面加载</td>
-                <td><a href="MainFrame.html">flexgis页面</a></td>
+                <td><a href="FlexMain.html">flexgis页面</a></td>
                 <td>flexgis页面</td>
             </tr>
 		</table>

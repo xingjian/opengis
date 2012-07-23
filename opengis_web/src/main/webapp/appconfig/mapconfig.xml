@@ -2,8 +2,8 @@
 <configuration>
 	<map>
 		<basemaps>		    
-			<mapservice label="基础地图" type="wms"  bounds="36.250634038,117.006428675,36.143737962,117.186907325"  layers="ta_dhcc_map">
-				http://localhost:8686/geoserver/wms
+			<mapservice label="基础地图" type="wms"  bounds="41.058860536,115.375,39.418332,117.507567827"  layers="beijing">
+				http://localhost:8080/geoserver/wms
 			</mapservice>
 		</basemaps>
 		<baselayer>
