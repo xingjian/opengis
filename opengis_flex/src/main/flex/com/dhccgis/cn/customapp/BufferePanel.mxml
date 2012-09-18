@@ -59,13 +59,13 @@
 						lring = new LinearRing(new <Number>[pointTemp.x,pointTemp.y]);
 						polygon = new Polygon(new <Geometry>[lring]);
 						polygonFeature = new PolygonFeature(polygon,null,null,true);
-						polygonFeature.style = Style.getDrawSurfaceStyle();
+						polygonFeature.style = Style.getDefaultPolygonStyle();
 					}else{
 						lring.addPoint(pointTemp.x,pointTemp.y);
 					}
 					
 				}
-				var graphicLayer:VectorLayer = map.getLayerByName("graphicLayer") as VectorLayer;
+				var graphicLayer:VectorLayer = map.getLayerByIdentifier("graphicLayer") as VectorLayer;
 				graphicLayer.addFeature(polygonFeature);
 				if(arryListRet.length>1){
 					for(var j:int=1;j<arryListRet.length;j++){
@@ -103,7 +103,7 @@
 			}
 			
 			public function mapClick(event:MouseEvent):void{
-				var drawLayer:VectorLayer = map.getLayerByName("graphicLayer") as VectorLayer;
+				var drawLayer:VectorLayer = map.getLayerByIdentifier("graphicLayer") as VectorLayer;
 				drawLayer.reset();
 				var style:Style = Style.getDefaultPointStyle();
 				
@@ -120,7 +120,7 @@
 			}
 			
 			public function clearClick(event:Event):void{
-				var drawLayer:VectorLayer = map.getLayerByName("graphicLayer") as VectorLayer;
+				var drawLayer:VectorLayer = map.getLayerByIdentifier("graphicLayer") as VectorLayer;
 				drawLayer.reset();
 			}
 			

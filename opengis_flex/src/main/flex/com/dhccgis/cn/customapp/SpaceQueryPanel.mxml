@@ -39,7 +39,7 @@
 			
 			/** 定位功能的处理方式 **/
 			public function showPositionHandle(event:Event):void{
-				var fLayer:VectorLayer = map.getLayerByName("graphicLayer") as VectorLayer;
+				var fLayer:VectorLayer = map.getLayerByIdentifier("graphicLayer") as VectorLayer;
 				fLayer.reset();
 				var dgItem:Object = dg.selectedItem as Object;
 				var x:Number = dgItem.x;

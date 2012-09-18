@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark"  creationComplete="init()"
+			   xmlns:mx="library://ns.adobe.com/flex/mx" minWidth="955" minHeight="600" xmlns:ns="http://openscales.org">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import com.dhccgis.cn.layers.BaiduMapLayer;
+			import com.dhccgis.cn.layers.GooelgMapLayer;
+			
+			public static const HYBRID:String="mt0.google.com/vt/lyrs=h@159000000&hl=ru";
+			public static const SAT:String="khm0.google.ru/kh/v=90";
+			public static const STANDART:String="mt0.google.com/vt/lyrs=m@159000000&hl=ru";
+			
+			//初始化方法
+			public function init():void{
+				var gml:GooelgMapLayer = new GooelgMapLayer("googlemap","");
+				fxmap.map.addLayer(gml,true);
+				var gml1:BaiduMapLayer = new BaiduMapLayer("baidumap","");
+				fxmap1.map.addLayer(gml1,true);
+			}
+			
+		]]>
+	</fx:Script>
+	<s:HGroup width="100%" height="100%">
+		<s:Panel title="GoogleMapLayer" width="50%" height="100%">
+			<ns:Map id="fxmap" width="100%" height="100%">
+				<ns:DragHandler/>
+				<ns:ClickHandler/>
+				<ns:WheelHandler/>
+			</ns:Map>
+		</s:Panel>
+		<s:Panel title="BaiduMapLayer" width="50%" height="100%">
+			<ns:Map id="fxmap1" width="100%" height="100%">
+				<ns:DragHandler/>
+				<ns:ClickHandler/>
+				<ns:WheelHandler/>
+			</ns:Map>
+		</s:Panel>
+	</s:HGroup>
+	
+</s:Application>

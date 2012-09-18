@@ -38,7 +38,7 @@
 			[Embed(source="images/buffer.png")]
 			public var bufferIcon:Class;
 			
-			public var graphicLayer:Layer;
+			public var graphicLayer:Layer = new Layer("graphicLayer",true);
 			
 			private function initMap():void {
 				map = fxmap.map;
@@ -108,8 +108,6 @@
 			
 			protected function fxmap_clickHandler(event:MouseEvent):void
 			{
-				var hospitalLayer:Layer = fxmap.map.getLayerByName("hospital");
-				//hospitalLayer.
 			}
 			
 		]]>
@@ -126,12 +124,10 @@
 			</mx:VBox>
 		</mx:Accordion>
 		<mx:Canvas width="70%" height="100%">
-			<os:Map id="fxmap" width="100%"  height="100%" click="fxmap_clickHandler(event)"  center="117.106,35.185">
-				<os:WMS name="泰安基础地图"
-						url="http://localhost:8686/geoserver/wms"
-						layers="ta_dhccgis_map,hospital" symbolColor="0x00000"
-						width="660" height="330"
-						format="image/jpeg"/>
+			<os:Map id="fxmap" width="100%"  height="100%" click="fxmap_clickHandler(event)"   center="116.43295,40.20084" >
+				<os:Extent east="117.507567827" west="115.375" north="39.4183311462402" south="41.058860536" />
+				<os:WMS name="北京基础地图" url="http://localhost:8080/geoserver/wms" 	layers="bjtraffic" symbolColor="0x00000"
+						width="512" height="393"	format="image/png"/>
 				<os:MousePosition x="10"   y="{fxmap.height-20}"  displayProjection="EPSG:4326"/>
 				<os:DragHandler/>
 				<os:ClickHandler/>

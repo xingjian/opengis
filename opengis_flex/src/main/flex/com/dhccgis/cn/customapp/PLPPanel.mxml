@@ -83,7 +83,7 @@
 					}
 					
 				}
-				var graphicLayer:VectorLayer = map.getLayerByName("graphicLayer") as VectorLayer;
+				var graphicLayer:VectorLayer = map.getLayerByIdentifier("graphicLayer") as VectorLayer;
 				graphicLayer.reset();
 				graphicLayer.addFeature(lineStringFeature);
 				map.zoomToExtent(lineStringFeature.geometry.bounds);
@@ -108,13 +108,13 @@
 						lring = new LinearRing(new <Number>[pointTemp.x,pointTemp.y]);
 						polygon = new Polygon(new <Geometry>[lring]);
 						polygonFeature = new PolygonFeature(polygon,null,null,true);
-						polygonFeature.style = Style.getDrawSurfaceStyle();
+						polygonFeature.style = Style.getDefaultPolygonStyle();
 					}else{
 						lring.addPoint(pointTemp.x,pointTemp.y);
 					}
 					
 				}
-				var graphicLayer:VectorLayer = map.getLayerByName("graphicLayer") as VectorLayer;
+				var graphicLayer:VectorLayer = map.getLayerByIdentifier("graphicLayer") as VectorLayer;
 				graphicLayer.reset();
 				graphicLayer.addFeature(polygonFeature);
 				map.zoomToExtent(polygonFeature.geometry.bounds);
