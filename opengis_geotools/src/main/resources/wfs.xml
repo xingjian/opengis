@@ -1,0 +1,30 @@
+<wfs:Transaction
+	xsi:schemaLocation="/bjtraffic http://172.18.18.34:7777/geoserver/bjtraffic/wfs?service=WFS&version=1.0.0&request=DescribeFeatureType&typeName=bjtraffic%3Asubway http://www.opengis.net/wfs http://172.18.18.34:7777/geoserver/schemas/wfs/1.1.0/wfs.xsd"
+	xmlns:ogc="http://www.opengis.net/ogc" xmlns:tiger="http://www.census.gov"
+	xmlns:cite="http://www.opengeospatial.net/cite" xmlns:nurc="http://www.nurc.nato.int"
+	xmlns:sde="http://geoserver.sf.net" xmlns:wfs="http://www.opengis.net/wfs"
+	xmlns:topp="http://www.openplans.org/topp" xmlns:it.geosolutions="http://www.geo-solutions.it"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sf="http://www.openplans.org/spearfish"
+	xmlns:ows="http://www.opengis.net/ows" xmlns:bjtraffic="/bjtraffic"
+	xmlns:gml="http://www.opengis.net/gml" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<wfs:Insert>
+		<bjtraffic:subway>
+			<gml:name>999999999</gml:name>
+			<bjtraffic:version_nu>0.0</bjtraffic:version_nu>
+			<bjtraffic:symbol_num>0.0</bjtraffic:symbol_num>
+			<bjtraffic:guid>6d8eeb3c-ab1f-4a2d-976c-8c2974wwwwww</bjtraffic:guid>
+			<bjtraffic:maxx>116.455598255000000</bjtraffic:maxx>
+			<bjtraffic:maxy>39.940001205999998</bjtraffic:maxy>
+			<bjtraffic:minx>116.455598255000000</bjtraffic:minx>
+			<bjtraffic:miny>39.940001205999998</bjtraffic:miny>
+			<bjtraffic:shape_type>1001.0</bjtraffic:shape_type>
+			<bjtraffic:subtype>0.0</bjtraffic:subtype>
+			<bjtraffic:the_geom>
+				<gml:Point srsDimension="2"
+					srsName="http://www.opengis.net/gml/srs/epsg.xml#4326">
+					<gml:pos>116.46165861899999 39.941256683999995</gml:pos>
+				</gml:Point>
+			</bjtraffic:the_geom>
+		</bjtraffic:subway>
+	</wfs:Insert>
+</wfs:Transaction>
