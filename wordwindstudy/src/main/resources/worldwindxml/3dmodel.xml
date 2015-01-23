@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LayerSet Name="Clart Test" ShowOnlyOneLayer="false" ShowAtStartup="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="LayerSet.xsd">
+  <ModelFeature ShowAtStartup="true">
+    <Name>Tiny1</Name>
+    <DistanceAboveSurface>160.0</DistanceAboveSurface>
+    <Latitude>
+      <Value>39.93</Value>
+    </Latitude>
+    <Longitude>
+      <Value>116.400002</Value>
+    </Longitude>
+    <ScaleFactor>2</ScaleFactor>
+    <MeshFilePath>Data\3dmodel\1\1.x</MeshFilePath>
+    <Orientation>
+      <RotationX>0.0</RotationX>
+      <RotationY>90.0</RotationY>
+      <RotationZ>90.0</RotationZ>
+    </Orientation>
+    <MaxViewRange>10000.0</MaxViewRange>
+    <MinViewRange>10</MinViewRange>
+  </ModelFeature>
+
+  <ModelFeature ShowAtStartup="true">
+    <Name>Tiny2</Name>
+    <DistanceAboveSurface>160.0</DistanceAboveSurface>
+    <Latitude>
+      <Value>39.93</Value>
+    </Latitude>
+    <Longitude>
+      <Value>116.410002</Value>
+    </Longitude>
+    <ScaleFactor>2</ScaleFactor>
+    <MeshFilePath>Data\3dmodel\1\1.x</MeshFilePath>
+    <Orientation>
+      <RotationX>0.0</RotationX>
+      <RotationY>-90.0</RotationY>
+      <RotationZ>90.0</RotationZ>
+    </Orientation>
+    <MaxViewRange>10000.0</MaxViewRange>
+    <MinViewRange>10</MinViewRange>
+  </ModelFeature>
+</LayerSet>

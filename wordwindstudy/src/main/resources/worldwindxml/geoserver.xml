@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LayerSet Name="Geoserver" ShowOnlyOneLayer="false" ShowAtStartup="false" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="LayerSet.xsd">
+	<QuadTileSet ShowAtStartup="true">
+		<Name>taianlayers</Name>
+		<DistanceAboveSurface>120</DistanceAboveSurface>
+		<BoundingBox>
+			<North>
+				<Value>36.476</Value>
+			</North>
+			<South>
+				<Value>35.376</Value>
+			</South>
+			<West>
+				<Value>117.996</Value>
+			</West>
+			<East>
+				<Value>115.846</Value>
+			</East>
+		</BoundingBox>
+		<TerrainMapped>true</TerrainMapped>
+		<ImageAccessor>
+			<LevelZeroTileSizeDegrees>36</LevelZeroTileSizeDegrees>
+			<NumberLevels>10</NumberLevels>
+			<TextureSizePixels>512</TextureSizePixels>
+			<ImageFileExtension>png</ImageFileExtension>
+		<WMSAccessor>
+		  <ServerGetMapUrl>http://localhost:8686/geoserver/wms</ServerGetMapUrl>
+		  <ServiceName>wms</ServiceName>
+		  <Version>1.1.1</Version>
+		  <ImageFormat>image/png</ImageFormat>
+		  <WMSLayerName>taianlayers</WMSLayerName>
+		  <UseTransparency>true</UseTransparency>
+		  <TransparentMinValue>0</TransparentMinValue>
+		  <TransparentMaxValue>16</TransparentMaxValue>		  
+		  <ServerLogoFilePath>add-ons\Earth\NHDPlus\NHDPlus.png</ServerLogoFilePath>
+		 </WMSAccessor>
+		</ImageAccessor>
+	</QuadTileSet>
+</LayerSet>
