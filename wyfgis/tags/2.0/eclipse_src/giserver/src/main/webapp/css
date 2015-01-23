@@ -1,0 +1,67 @@
+BODY {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; BACKGROUND: #fff; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif; min-width: 780px
+}
+HTML {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; BACKGROUND: #fff; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif; min-width: 780px
+}
+CODE {
+	FONT-SIZE: 1.3em; FONT-FAMILY: serif
+}
+
+.restBody 
+{
+	 FONT-SIZE:0.8em; MARGIN-LEFT: 22px; 
+}
+
+TABLE#userTable {
+	FONT-SIZE: 0.80em;
+}
+
+TABLE#navTable {
+	PADDING-BOTTOM: 5px; MARGIN: 0px 0px 3px; PADDING-TOP: 0px; BORDER-BOTTOM: #000 1px solid; BORDER-TOP: #000 1px solid; BACKGROUND-COLOR: #E5EFF7;
+}
+
+TABLE#loginTable {
+	PADDING: 5px; MARGIN: 10px 0px 3px; BORDER: #000 1px solid; BACKGROUND-COLOR: #E5EFF7;
+}
+.formTable {
+  PADDING: 5px; MARGIN: 10px 0px 3px; BORDER: #000 1px solid; BACKGROUND-COLOR: #E5EFF7;
+}
+
+TABLE#adminNavTable {
+	PADDING-BOTTOM: 5px; MARGIN: 0px 0px 3px; PADDING-TOP: 0px; BORDER-BOTTOM: #000 1px solid; BORDER-TOP: #000 1px solid; BACKGROUND-COLOR: #F7EFE5;
+}
+
+TABLE#adminLoginTable {
+	PADDING: 5px; MARGIN: 10px 0px 3px; BORDER: #000 1px solid; BACKGROUND-COLOR: #F7EFE5;
+}
+.adminFormTable {
+  PADDING: 5px; MARGIN: 10px 0px 3px; BORDER: #000 1px solid; BACKGROUND-COLOR: #F7EFE5;
+}
+TD#breadcrumbs {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 11px; FONT-SIZE: 0.8em; FONT-WEIGHT: bold; PADDING-BOTTOM: 5px; MARGIN: 0px 0px 3px; PADDING-TOP: 0px;
+}
+TD#help {
+	PADDING-RIGHT: 11px; PADDING-LEFT: 0px; FONT-SIZE: 0.70em; PADDING-BOTTOM: 5px; MARGIN: 0px 0px 3px; PADDING-TOP: 3px; 
+}
+TD#titlecell {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 11px; FONT-SIZE: 1.0em; FONT-WEIGHT:bold; PADDING-BOTTOM: 5px; MARGIN: 0px 0px 3px; PADDING-TOP: 3px; 
+}
+TD {
+	PADDING-RIGHT: 11px; PADDING-LEFT: 0px; FONT-SIZE: 0.90em; PADDING-BOTTOM: 5px; MARGIN: 0px 0px 3px; PADDING-TOP: 3px; 
+}
+
+H2 {
+	MARGIN-LEFT: 11px; FONT-WEIGHT: bold; FONT-SIZE: 1.2em
+}
+H3 {
+	FONT-WEIGHT: bold; FONT-SIZE: 1.25em; MARGIN-BOTTOM: 0px; 
+}
+LI {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 3px; PADDING-TOP: 0px; 
+}
+
+.whiteTd {
+	BACKGROUND-COLOR: #FFFFFF;
+}
+

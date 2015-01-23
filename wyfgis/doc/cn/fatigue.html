@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="copyright" content="warrenwyf@gmail.com" />
+  <title>GIServer 文档</title>
+  <link rel="stylesheet" type="text/css" href="../style.css" />
+</head>
+
+<body>
+
+<table width="100%" height="100%" border="0" align="center">
+  <tbody>
+    <tr>
+      <td width="20%"></td>
+      <td width="60%"
+      style="text-align:center;margin-left:auto;margin-right:auto;"><h1>GIServer 文档</h1>
+      </td>
+      <td width="20%"></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td style="text-align:center;margin-left:auto;margin-right:auto;"><a
+        href="../index_cn.html">返回目录</a></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><hr />
+      </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td align="center"><h2>疲劳测试</h2>
+      </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td align="center"><font size="2">更新: 2010/8/3<br />
+        作者: 吴泳锋</font></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>
+      	<dl>GIServer针对使用池的服务（如地图服务）和不使用池的服务（如几何服务）分别进行了一些高压力的疲劳测试。
+		从测试结果看，GIServer即使在高负荷下运行也能保证稳定性。</dl>
+      	<dl>
+          <dt>这是一个切片地图服务，在接近100% CPU负载下持续运行16个小时的测试：</dt>
+            <dd><img src="../_img/loadrunner_tiledmapservice_fatigue.png" /></dd>
+        </dl>
+          <dt>这是一个几何服务，在接近100% CPU负载下1小时内的表现：</dt>
+            <dd><img src="../_img/loadrunner_trimextend_stress.png" /></dd>
+        </dl>
+      </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td align="center"><font size="2">版权所有 © GIServer</font></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+</body>
+</html>

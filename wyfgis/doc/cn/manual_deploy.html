@@ -1,0 +1,97 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="copyright" content="warrenwyf@gmail.com" />
+  <title>GIServer 文档</title>
+  <link rel="stylesheet" type="text/css" href="../style.css" />
+</head>
+
+<body>
+
+<table width="100%" height="100%" border="0" align="center">
+  <tbody>
+    <tr>
+      <td width="20%"></td>
+      <td width="60%"
+      style="text-align:center;margin-left:auto;margin-right:auto;"><h1>GIServer
+        文档</h1>
+      </td>
+      <td width="20%"></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td style="text-align:center;margin-left:auto;margin-right:auto;"><a
+        href="../index_cn.html">返回目录</a></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><hr />
+      </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td align="center"><h2>手动部署（Windows/Linux/...）</h2>
+      </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td align="center"><font size="2">更新: 2010/8/1<br />
+        作者: 吴泳锋</font></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>
+      	<dl>GIServer也可以通过手动的方式进行部署，手动部署需要自行安装和配置Java 1.5和Java Web服务器。</dl>
+      	<dl>
+          <dt>下载手动部署文件包</dt>
+            <dd>从<a href="http://sourceforge.net/projects/giserver/files/"
+              target="_blank">http://sourceforge.net/projects/giserver/files/</a>下载手动部署文件包，
+			  文件名一般为“giserver-[version]-deploy.zip”，文件解压缩后可以得到“giserver.war”文件和例子等其它文件目录。</dd>
+          <dt>下载安装Java运行环境</dt>
+            <dd>下载Java运行环境(JRE或JDK 1.5)
+              ，下载地址:<a href="http://www.oracle.com/technetwork/java/javase/downloads/index-jdk5-jsp-142662.html"
+              target="_blank">http://www.oracle.com/technetwork/java/javase/downloads/index-jdk5-jsp-142662.html</a>，
+			  然后根据Java官方文档提示进行安装并设置JAVA_HOME环境变量。</dd>
+			<dd>在生产环境中，如果需要地图动态渲染有更高的性能，那么需要安装原生的JAI库，下载地址:</dd>
+			<dd>JAI: <a href="https://jai.dev.java.net/binary-builds.html#Release_builds"
+              target="_blank">https://jai.dev.java.net/binary-builds.html#Release_builds</a></dd>
+            <dd>JAI Image I/O: <a href="https://jai-imageio.dev.java.net/binary-builds.html#Release_builds"
+              target="_blank">https://jai-imageio.dev.java.net/binary-builds.html#Release_builds</a></dd>
+          <dt>下载并安装支持Java的Web服务器</dt>
+            <dd>比如Tomcat，注意选择和Java 1.5兼容的版本，并根据服务器软件的文档进行安装和运行。</dd>
+          <dt>部署giserver.war文件</dt>
+            <dd>将解压缩得到的“giserver.war”文件部署到Java Web服务器。</dd>
+          <dt>编辑配置文件</dt>
+            <dd>进入目录GIServer应用部署目录下的 WEB-INF/conf目录，打开"server.properties"文件，
+			修改"WEB_ROOT"属性为您的Web服务器地址（如：http://localhost:8080），
+			修改"MAP_SERVICE_DIR"属性为您存放地图服务数据的目录（如：C\:\\Program Files (x86)\\GIServer\\sample\\data\\mapservices
+			或/home/giserver/data/mapservices等）。</dd>
+			<dd>打开"administrator.properties"文件，修改管理员帐号及密码，只有管理员可以登录管理控制台。</dd>
+          <dt>启动服务器</dt>
+            <dd>在Java Web服务器中重启"giserver"应用</dd>
+            <dd>在浏览器中访问类似这个地址："http://localhost:8080/giserver/"，如果看到类似下面的页面表示部署成功：</dd>
+            <dd><img alt="GIServer index page" src="../_img/giserver_index.png" border="1" /></dd>
+        </dl>
+      </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td align="center"><font size="2">版权所有 © GIServer</font></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+</body>
+</html>

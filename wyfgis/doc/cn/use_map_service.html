@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="copyright" content="warrenwyf@gmail.com" />
+  <title>GIServer 文档</title>
+  <link rel="stylesheet" type="text/css" href="../style.css" />
+</head>
+
+<body>
+
+<table width="100%" height="100%" border="0" align="center">
+  <tbody>
+    <tr>
+      <td width="20%"></td>
+      <td width="60%"
+      style="text-align:center;margin-left:auto;margin-right:auto;"><h1>GIServer 文档</h1>
+      </td>
+      <td width="20%"></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td style="text-align:center;margin-left:auto;margin-right:auto;"><a
+        href="../index_cn.html">返回目录</a></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><hr />
+      </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td align="center"><h2>使用地图服务</h2>
+      </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td align="center"><font size="2">更新: 2010/8/1<br />
+        作者: 吴泳锋</font></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>
+      	<dl>GIServer的地图服务提供和ArcGIS Server REST接口基本一致的访问方式，
+		因此，通过浏览器和ArcGIS Web API都可以非常容易地使用GIServer发布的地图服务。</dl>
+      	<dl>
+          <dt>在浏览器中访问服务</dt>
+            <dd>通过类似这样的网址可以在浏览器中访问到GIServer的服务主页面：http://localhost:8777/giserver/rest/service/</dd>
+            <dd><img src="../_img/service_directory_mapservice.png"/></dd>
+          <dt>使用ArcGIS Web API调用服务</dt>
+            <dd>GIServer采用兼容ArcGIS Server REST接口的设计，因此可以在前台使用各种ArcGIS Server的客户端API，	比如
+				<a href="http://help.arcgis.com/en/webapi/flex/" target="_blank">Flex</a>、
+				<a href="http://help.arcgis.com/en/webapi/silverlight/" target="_blank">Silverlight</a>、
+				<a href="http://help.arcgis.com/en/webapi/javascript/arcgis/" target="_blank">JavaScript</a>。</dd>
+            <dd>以Flex为例（代码参考：sample/flex目录），我们可以通过ArcGISDynamicMapServiceLayer来调用GIServer发布的动态地图服务：</dd>
+            <dd><img src="../_img/flex_dynamicmapservice.png"/></dd>
+            <dd>同时可以设置图层过滤条件：</dd>
+            <dd><img src="../_img/flex_dynamicmapservice_layerdefs.png"/></dd>
+            <dd>或者通过ArcGISTiledMapServiceLayer来调用切片地图服务：</dd>
+            <dd><img src="../_img/flex_tiledmapservice.png"/></dd>
+            <dd>当然，还可以进行查询、识别等地图操作：</dd>
+            <dd><img src="../_img/flex_mapservice_find.png"/></dd>
+            <dd><img src="../_img/flex_mapservice_identify.png"/></dd>
+			
+        </dl>
+      </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td align="center"><font size="2">版权所有 © GIServer</font></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+</body>
+</html>

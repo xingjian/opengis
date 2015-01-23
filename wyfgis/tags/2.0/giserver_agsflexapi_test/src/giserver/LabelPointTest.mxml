@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   xmlns:esri="http://www.esri.com/2008/ags"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:flash="flash.text.*">
+	
+	<s:layout>
+		<s:VerticalLayout gap="10"
+						  horizontalAlign="center"
+						  paddingBottom="20"
+						  paddingLeft="20"
+						  paddingRight="20"
+						  paddingTop="20"/>
+	</s:layout>
+	
+	<fx:Script>
+		<![CDATA[
+			import com.esri.ags.Graphic;
+			import com.esri.ags.events.DrawEvent;
+			import com.esri.ags.events.GeometryServiceEvent;
+			import com.esri.ags.geometry.Geometry;
+			
+			import spark.events.IndexChangeEvent;
+			
+			private function tbb_changeHandler(event:IndexChangeEvent):void
+			{
+				// myGraphicsLayer.clear();
+				switch (tbb.selectedItem)
+				{
+					case "Polygon":
+					{
+						myDrawTool.activate(DrawTool.POLYGON);
+						break;
+					}
+					case "FreeHand Polygon":
+					{
+						myDrawTool.activate(DrawTool.FREEHAND_POLYGON);
+						break;
+					}
+				}
+			}
+			
+			private function simplifyDrawnGraphic(event:DrawEvent):void
+			{
+				// clean the polygon (fix overlapping lines etc)
+				// Note: As of version 2.0, the GeometryService input is geometries (instead of graphics).
+				myGeometryService.simplify([ event.graphic.geometry ]);
+			}
+			
+			private function simplifyCompleteHandler(event:GeometryServiceEvent):void
+			{
+				myGeometryService.labelPoints(event.result as Array);
+			}
+			
+			private function labelPointsCompleteHandler(event:GeometryServiceEvent):void
+			{
+				for each (var geom:Geometry in event.result)
+				{
+					var g:Graphic = new Graphic;
+					g.geometry = geom;
+					g.symbol = labelSymbol;
+					myGraphicsLayer.add(g);
+				}
+			}
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<!-- Symbol for labels -->
+		<esri:TextSymbol id="labelSymbol"
+						 background="true"
+						 border="true"
+						 text="Label">
+			<flash:TextFormat font="Verdana" size="11"/>
+		</esri:TextSymbol>
+		
+		<!-- use DrawTool to draw polygons -->
+		<esri:DrawTool id="myDrawTool"
+					   drawEnd="simplifyDrawnGraphic(event)"
+					   graphicsLayer="{myGraphicsLayer}"
+					   map="{map}">
+			<esri:fillSymbol>
+				<esri:SimpleFillSymbol id="sfs"
+									   color="0xFFFF00"
+									   style="solid">
+					<esri:SimpleLineSymbol width="1"/>
+				</esri:SimpleFillSymbol>
+			</esri:fillSymbol>
+		</esri:DrawTool>
+		
+		<!-- use Geometry Service to clean polygons and find best label points -->
+		<esri:GeometryService id="myGeometryService"
+							  labelPointsComplete="labelPointsCompleteHandler(event)"
+							  simplifyComplete="simplifyCompleteHandler(event)"
+							  url="http://localhost:8777/giserver/rest/service/GeometryService"/>
+	</fx:Declarations>
+	
+	<s:ButtonBar id="tbb"
+				 change="tbb_changeHandler(event)"
+				 creationComplete="tbb.selectedIndex = -1"
+				 fontWeight="bold"
+				 valueCommit="if (tbb.selectedIndex == -1) { myDrawTool.deactivate() }">
+		<s:ArrayList>
+			<fx:String>Polygon</fx:String>
+			<fx:String>FreeHand Polygon</fx:String>
+		</s:ArrayList>
+	</s:ButtonBar>
+	
+	<esri:Map id="map"
+			  height="100%"
+			  width="100%">
+		<esri:ArcGISTiledMapServiceLayer url="http://server.arcgisonline.com/ArcGIS/rest/services/World_Physical_Map/MapServer"/>
+		<esri:GraphicsLayer id="myGraphicsLayer"/>
+	</esri:Map>
+</s:Application>

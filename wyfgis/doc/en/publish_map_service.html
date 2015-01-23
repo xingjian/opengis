@@ -1,0 +1,110 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="copyright" content="warrenwyf@gmail.com" />
+  <title>GIServer Documentations</title>
+  <link rel="stylesheet" type="text/css" href="../style.css" />
+</head>
+
+<body>
+
+<table width="100%" height="100%" border="0" align="center">
+  <tbody>
+    <tr>
+      <td width="20%"></td>
+      <td width="60%"
+      style="text-align:center;margin-left:auto;margin-right:auto;"><h1>GIServer Documentations</h1>
+      </td>
+      <td width="20%"></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td style="text-align:center;margin-left:auto;margin-right:auto;"><a
+        href="../index_en.html">Back to Index</a></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><hr />
+      </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td align="center"><h2>Publish Map Service</h2>
+      </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td align="center"><font size="2">Last modified: 2010/9/3<br />
+	  Author: Wu Yongfeng</font></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>
+      	<dl>GIServer use direcotries as map services, we can organize data, styles, configurations all below a directory, 
+		it will make updating and move services easily. In Config Tool, we can see map services directory is very important, 
+		GIServer will scan all directories and its sub folders for map services:<br/>
+		<img src="../_img/config_tool_mapservices_directory.png" /></dl>
+      	<dl>
+          <dt>Prepare a Map Service Directory</dt>
+            <dd>First of all, create a new directory for a new map service, assuming we create a folder named "sample", and create a folder named "world" under it, 
+			it will be a map service named "sample:world" in GIServer.</dd>
+            <dd><img src="../_img/map_service_directory.png" /></dd>
+          <dt>Prepare Data and Styles</dt>
+            <dd>File data fource should be copied to map service directory, and we need SLD file for layers. Here we create a folder "data" to store Shapefiles, 
+			and create a folder named "sld" to store sld files.</dd>
+			<dd>（About SLD: <a href="http://www.opengeospatial.org/standards/sld" target="_blank">http://www.opengeospatial.org/standards/sld</a>）</dd>
+            <dd>We suggest using uDig to change layer's style, and export it as a SLD file.
+			uDig is free, you can download from:<a href="http://udig.refractions.net/" target="_blank">http://udig.refractions.net/</a>。</dd>
+			<dd>Here we change the styles of two layers in "world":</dd>
+			<dd><img src="../_img/udig_changestyle.png"/></dd>
+			<dd>Export SLD file from uDig:</dd>
+			<dd><img src="../_img/udig_export_sld.png"/></dd>
+          <dt>Generate Map Description using Map Tool</dt>
+		  	<dd>GIServer provides a simple tool named "Map Tool" to organize data and styles into a map.</dd>
+		  	<dd>Choose a map service directory using tool "New", here we choose the "world" directory created upon:</dd>
+			<dd><img src="../_img/maptool_new.png"/></dd>
+			<dd><img src="../_img/maptool_new_choosedirectory.png"/></dd>
+		  	<dd>Add layers to map using tool "Configure Map":</dd>
+			<dd><img src="../_img/maptool_configmap_addlayer.png"/></dd>
+			<dd><img src="../_img/maptool_configlayer.png"/></dd>
+			<dd><img src="../_img/maptool_configlayer_finish.png"/></dd>
+			<dd><img src="../_img/maptool_configmap_apply.png"/></dd>
+			<dd><img src="../_img/maptool_configmap_save.png"/></dd>
+			<dd><img src="../_img/maptool_mapdesc.png"/></dd>
+          <dt>Generate Map Service Description using Map Tool</dt>
+		  	<dd>We alse need describe the map service, such as number of instances, is it a tiled map service, etc.
+			We can use tool "Configure Map Service":</dd>
+			<dd><img src="../_img/maptool_configmapservice.png"/></dd>
+			<dd><img src="../_img/maptool_configmapservice_loadagsschema.png"/></dd>
+			<dd><img src="../_img/maptool_configmapservice_save.png"/></dd>
+			<dd><img src="../_img/maptool_mapservicedesc.png"/></dd>
+          <dt>Reload Map Service in Admin. Console</dt>
+			<dd><img src="../_img/admin_reconfig.png"/></dd>
+		  	<dd>Click <a href="admin_console.html">Here</a> for more information about Admin. Console.</dd>
+          <dt>Generate Tiles using Map Tiles Tool</dt>
+			<dd><img src="../_img/map_tiles_tool.png"/></dd>
+		  	<dd>GIServer has a simple tool named "Map Tiles Tool", it could help to generate map tiles, Notice "Create On Demand" attribute need to be TRUE。</dd>
+        </dl>
+      </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td align="center"><font size="2">Copyright © GIServer</font></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+</body>
+</html>

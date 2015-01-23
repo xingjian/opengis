@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application
+	xmlns:fx="http://ns.adobe.com/mxml/2009"
+	xmlns:s="library://ns.adobe.com/flex/spark"
+	xmlns:mx="library://ns.adobe.com/flex/mx"
+	xmlns:esri="http://www.esri.com/2008/ags"
+	initialize="application1_initializeHandler(event)">
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			
+			import com.esri.ags.FeatureSet;
+			import com.esri.ags.Graphic;
+			import com.esri.ags.SpatialReference;
+			import com.esri.ags.events.DrawEvent;
+			import com.esri.ags.events.GeometryServiceEvent;
+			import com.esri.ags.geometry.Geometry;
+			import com.esri.ags.geometry.MapPoint;
+			import com.esri.ags.tasks.QueryTask;
+			import com.esri.ags.tasks.supportClasses.Query;
+			
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.rpc.AsyncResponder;
+			
+			protected function application1_initializeHandler(event:FlexEvent):void
+			{
+				drawTool.activate(DrawTool.EXTENT);
+			}
+			
+			private function drawEndHandler(event:DrawEvent):void
+			{
+				convexHullResultGraphicsLayer.clear();
+				
+				var extent:Extent = event.graphic.geometry as Extent;
+				var graphic:Graphic;
+				var geometries:Array = [];
+				var results:ArrayCollection = new ArrayCollection;
+				for (var i:Number = 0 ; i < myFeatureLayer.numChildren ; i++)
+				{
+					graphic=myFeatureLayer.getChildAt(i) as Graphic;
+					
+					//if point is within drawn extent, highlight it
+					if (extent.contains(MapPoint(graphic.geometry)))
+					{
+						graphic.symbol = highlightedSymbol;
+						geometries.push(MapPoint(graphic.geometry));
+						results.addItem(graphic.attributes.CITY_NAME);
+					}
+						//else if point was previously highlighted, reset its symbology
+					else if (graphic.symbol == highlightedSymbol)
+					{
+						graphic.symbol = defaultSymbol;
+					}
+				}
+				
+				// find convex hull for the selected points
+				geometryService.convexHull(geometries,new SpatialReference(4326));
+			}
+			
+			private function convexHullCompleteHandler(event:GeometryServiceEvent):void
+			{
+				var graphic : Graphic = new Graphic(Geometry(event.result));
+				switch(Geometry(event.result).type)
+				{
+					case Geometry.MAPPOINT:
+						graphic.symbol = convexHullPoint;
+						break;
+					case Geometry.POLYLINE:
+						graphic.symbol = convexHullPolyline;
+						break;
+					case Geometry.POLYGON:
+						graphic.symbol = convexHullPolygon;
+						break;
+				}
+				convexHullResultGraphicsLayer.add(graphic);
+			}
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<esri:SimpleMarkerSymbol id="defaultSymbol" color="0x0000FF" size="12" alpha="0.5">
+			<esri:SimpleLineSymbol/>
+		</esri:SimpleMarkerSymbol>
+		<esri:SimpleMarkerSymbol id="highlightedSymbol" color="0xFF0000" size="12">
+			<esri:SimpleLineSymbol/>
+		</esri:SimpleMarkerSymbol>
+		<esri:SimpleFillSymbol id="convexHullPolygon" style="solid" alpha="0.5">
+			<esri:SimpleLineSymbol color="0xFFFFFF" width="2"/>
+		</esri:SimpleFillSymbol>
+		<esri:SimpleLineSymbol id="convexHullPolyline" color="0xFFFFFF" width="3"/>
+		<esri:SimpleMarkerSymbol id="convexHullPoint" color="0xFFFFFF"/>
+		
+		<esri:DrawTool id="drawTool"
+					   drawEnd="drawEndHandler(event)"
+					   fillSymbol="{convexHullPolygon}"
+					   map="{myMap}"/>
+		<esri:GeometryService id="geometryService"
+							  url="http://localhost:8777/giserver/rest/service/GeometryService" convexHullComplete="convexHullCompleteHandler(event)"/>
+	</fx:Declarations>
+	
+	<s:layout>
+		<s:VerticalLayout paddingTop="7"/>
+	</s:layout>
+	
+	<s:VGroup horizontalAlign="center" height="100%" width="100%">
+		<s:Label text="Calculate Convex Hull" fontSize="18" fontWeight="bold"/>
+		<mx:Text text="Draw a rectangle around a group of points to calculate the minimum bounding polygon ('convex hull') of the selected points." fontSize="13" width="100%"/>
+		<esri:Map id="myMap">
+			<esri:extent>
+				<esri:Extent xmin="-13661000" ymin="4452000" xmax="-13561000" ymax="4601000">
+					<esri:SpatialReference wkid="102100"/>
+				</esri:Extent>
+			</esri:extent>
+			<esri:ArcGISTiledMapServiceLayer
+				url="http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer"/>
+			<esri:FeatureLayer id="myFeatureLayer"
+							   outFields="['CITY_NAME']"
+							   symbol="{defaultSymbol}"
+							   url="http://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Specialty/ESRI_StatesCitiesRivers_USA/MapServer/0"
+							   />
+			<esri:GraphicsLayer id="convexHullResultGraphicsLayer"/>
+		</esri:Map>
+	</s:VGroup>
+</s:Application>

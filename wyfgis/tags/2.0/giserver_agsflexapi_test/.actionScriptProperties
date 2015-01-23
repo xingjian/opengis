@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<actionScriptProperties mainApplicationPath="giserver/DistanceTest.mxml" projectUUID="ce0eebf2-5efa-48a9-ab09-a8929c0470c3" version="6">
+  <compiler additionalCompilerArguments="-locale zh_CN" autoRSLOrdering="true" copyDependentFiles="true" fteInMXComponents="false" generateAccessible="true" htmlExpressInstall="true" htmlGenerate="true" htmlHistoryManagement="true" htmlPlayerVersionCheck="true" includeNetmonSwc="false" outputFolderPath="bin-debug" sourceFolderPath="src" strict="true" targetPlayerVersion="0.0.0" useApolloConfig="false" useDebugRSLSwfs="true" verifyDigests="true" warn="true">
+    <compilerSourcePath/>
+    <libraryPath defaultLinkType="0">
+      <libraryPathEntry kind="4" path="">
+        <excludedEntries>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/flex.swc" useDefaultLinkType="false"/>
+        </excludedEntries>
+      </libraryPathEntry>
+      <libraryPathEntry kind="1" linkType="1" path="libs"/>
+      <libraryPathEntry kind="3" linkType="1" path="D:/Software/GIS/ArcGIS/arcgis_api_for_flex_2_0/ArcGIS_Flex/libs/agslib-2.0-2010-06-25.swc" useDefaultLinkType="false"/>
+    </libraryPath>
+    <sourceAttachmentPath/>
+  </compiler>
+  <applications>
+    <application path="giserver/ConvexHullTest.mxml"/>
+    <application path="giserver/IdentifyTest.mxml"/>
+    <application path="giserver/FindTest.mxml"/>
+    <application path="giserver/TiledMapTest.mxml"/>
+    <application path="giserver/ProjectTest.mxml"/>
+    <application path="giserver/EditTest.mxml"/>
+    <application path="giserver/LengthsTest.mxml"/>
+    <application path="giserver/SimplifyTest.mxml"/>
+    <application path="giserver/DynamicMapTest.mxml"/>
+    <application path="giserver/RelationTest.mxml"/>
+    <application path="giserver/TrimExtendTest.mxml"/>
+    <application path="giserver/BufferTest.mxml"/>
+    <application path="giserver/LabelPointTest.mxml"/>
+    <application path="giserver/QueryTest.mxml"/>
+    <application path="giserver/DistanceTest.mxml"/>
+    <application path="giserver/AreasTest.mxml"/>
+  </applications>
+  <modules/>
+  <buildCSSFiles/>
+</actionScriptProperties>

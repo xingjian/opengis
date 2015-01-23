@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
+               xmlns:mx="library://ns.adobe.com/flex/mx"
+               xmlns:esri="http://www.esri.com/2008/ags"
+               xmlns:s="library://ns.adobe.com/flex/spark">
+
+    <s:layout>
+        <s:VerticalLayout paddingBottom="15"
+                          paddingLeft="15"
+                          paddingRight="15"
+                          paddingTop="15"/>
+    </s:layout>
+
+    <fx:Script>
+        <![CDATA[
+            import com.esri.ags.Graphic;
+            import com.esri.ags.SpatialReference;
+            import com.esri.ags.events.GeometryServiceEvent;
+            import com.esri.ags.events.MapMouseEvent;
+            import com.esri.ags.geometry.Geometry;
+            import com.esri.ags.geometry.MapPoint;
+
+            import mx.collections.ArrayCollection;
+            import mx.controls.Alert;
+            import mx.controls.TextArea;
+
+            import spark.events.IndexChangeEvent;
+
+            private var infoWindowText:String;
+
+            private var lastClick:MapPoint;
+
+            private const projectionList:ArrayCollection = new ArrayCollection(
+                [
+                { data: 4326, label: "GCS_WGS_1984" },
+                { data: 4269, label: "GCS_North_American_1983" },
+                { data: 102113, label: "WGS_1984_Web_Mercator" }, 
+                { data: 102100, label: "WGS_1984_Web_Mercator_Auxiliary_Sphere" }, 
+				{ data: 3857, label: "WGS_1984_Web_Mercator_Auxiliary_Sphere" }
+                ]);
+
+            // See http://help.arcgis.com/en/arcgisserver/10.0/apis/rest/pcs.html for more projections
+
+            private function myClickHandler(event:MapMouseEvent):void
+            {
+                lastClick = event.mapPoint;
+                var coordGraphic:Graphic = new Graphic(lastClick);
+                myGraphicsLayer.clear();
+                myGraphicsLayer.add(coordGraphic);
+                projectNow();
+            }
+
+            private function projectNow():void
+            {
+                var outSR:SpatialReference = new SpatialReference(wkid.selectedItem.data);
+                // Note: GeometryService takes in geometries instead of graphics as input
+                geometryService.project([ lastClick as Geometry ], outSR);
+
+                infoWindowText = "From wkid = " + myMap.spatialReference.wkid + ":\nX: " + lastClick.x + "\nY: " + lastClick.y;
+                myMap.infoWindow.show(lastClick);
+            }
+
+            private function projectCompleteHandler(event:GeometryServiceEvent):void
+            {
+                try
+                {
+                    // Note: As of version 2.0, GeometryService returns geometries (instead of graphics)
+                    var pt:MapPoint = (event.result as Array)[0] as MapPoint;
+                    var textArea:TextArea = new TextArea();
+                    textArea.editable = false;
+                    textArea.width = 170;
+                    textArea.height = 130;
+                    infoWindowText = infoWindowText.concat("\r\nTo wkid = " + wkid.selectedItem.data + ":\n"
+                                                           + "  X: " + pt.x + "\n"
+                                                           + "  Y: " + pt.y);
+                    textArea.text = infoWindowText;
+                    myMap.infoWindow.label = "Coordinates";
+                    myMap.infoWindow.content = textArea;
+                }
+                catch (error:Error)
+                {
+                    Alert.show(error.toString());
+                }
+            }
+
+            private function onFault(info:Object, token:Object = null):void
+            {
+                Alert.show(info.toString());
+            }
+
+            protected function wkid_changeHandler(event:IndexChangeEvent):void
+            {
+                if (lastClick) // only if someone already clicked the map
+                {
+                    projectNow();
+                }
+            }
+        ]]>
+    </fx:Script>
+
+    <fx:Declarations>
+        <esri:GeometryService id="geometryService"
+                              concurrency="last" disableClientCaching="true"
+                              fault="onFault(event)"
+                              projectComplete="projectCompleteHandler(event)"
+                              url="http://localhost:8777/giserver/rest/service/GeometryService"/>
+    </fx:Declarations>
+
+    <mx:FormItem label="Click on the map see the coordinates projected into:">
+        <s:DropDownList id="wkid"
+                        change="wkid_changeHandler(event)"
+                        dataProvider="{projectionList}"
+                        selectedIndex="0"
+                        width="300"/>
+    </mx:FormItem>
+    <esri:Map id="myMap" mapClick="myClickHandler(event)">
+        <esri:extent>
+            <esri:Extent id="lower48"
+                         xmin="-14305000" ymin="2748000" xmax="-6815000" ymax="7117000">
+                <esri:SpatialReference wkid="102100"/>
+            </esri:Extent>
+        </esri:extent>
+        <esri:ArcGISTiledMapServiceLayer url="http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer"/>
+        <esri:GraphicsLayer id="myGraphicsLayer">
+            <esri:symbol>
+                <!-- Symbol to clearly mark the point to be projected -->
+                <esri:SimpleMarkerSymbol alpha="0.9"
+                                         color="0xFFFF00"
+                                         size="12"
+                                         style="square">
+                    <esri:SimpleLineSymbol color="0x000000"/>
+                </esri:SimpleMarkerSymbol>
+            </esri:symbol>
+        </esri:GraphicsLayer>
+    </esri:Map>
+
+</s:Application>

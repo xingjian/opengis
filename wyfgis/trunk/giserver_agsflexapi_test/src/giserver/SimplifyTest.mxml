@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   xmlns:esri="http://www.esri.com/2008/ags"
+			   xmlns:s="library://ns.adobe.com/flex/spark">
+	
+	<s:layout>
+		<s:VerticalLayout gap="20"
+						  horizontalAlign="center"
+						  paddingBottom="20"
+						  paddingTop="20"/>
+	</s:layout>
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.rpc.events.FaultEvent;
+			import com.esri.ags.FeatureSet;
+			import com.esri.ags.Graphic;
+			import com.esri.ags.SpatialReference;
+			import com.esri.ags.events.DrawEvent;
+			import com.esri.ags.events.GeometryServiceEvent;
+			import com.esri.ags.geometry.Geometry;
+			import com.esri.ags.symbols.SimpleLineSymbol;
+			import com.esri.ags.tasks.GeometryService;
+			import com.esri.ags.tasks.QueryTask;
+			import com.esri.ags.tasks.supportClasses.Query;
+			
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.rpc.AsyncResponder;
+			
+			import spark.events.IndexChangeEvent;
+			
+			[Bindable]public var spatialRelationshipOptions_linear:ArrayCollection = new ArrayCollection(
+				[
+					{ data: Query.SPATIAL_REL_CROSSES, label: "whose borders crosses my line [SPATIAL_REL_CROSSES]" },
+					{ data: Query.SPATIAL_REL_INTERSECTS, label: "that my line intersects [SPATIAL_REL_INTERSECTS]" },
+					{ data: Query.SPATIAL_REL_WITHIN, label: "that contain my complete line [SPATIAL_REL_WITHIN]" }
+				]);
+			
+			[Bindable]public var spatialRelationshipOptions_area:ArrayCollection = new ArrayCollection(
+				[
+					{ data: Query.SPATIAL_REL_CONTAINS, label: "that are inside my area [SPATIAL_REL_CONTAINS]" },
+					{ data: Query.SPATIAL_REL_INTERSECTS, label: "that are partially or completely within my area [SPATIAL_REL_INTERSECTS]" },
+					{ data: Query.SPATIAL_REL_OVERLAPS, label: "that are partially (but not fully) inside my area [SPATIAL_REL_OVERLAPS]" },
+					{ data: Query.SPATIAL_REL_WITHIN, label: "that my area is (fully) inside [SPATIAL_REL_WITHIN]" }
+				]);
+			
+			// Step 1. Draw something
+			private function tbb_changeHandler(event:IndexChangeEvent):void
+			{
+				switch (tbb.selectedItem)
+				{
+					case "Extent":
+					{
+						myDrawTool.activate(DrawTool.EXTENT);
+						spatialRel.dataProvider = spatialRelationshipOptions_area;
+						break;
+					}
+					case "Polyline":
+					{
+						myDrawTool.activate(DrawTool.POLYLINE);
+						spatialRel.dataProvider = spatialRelationshipOptions_linear;
+						break;
+					}
+					case "FreeHand Polyline":
+					{
+						myDrawTool.activate(DrawTool.FREEHAND_POLYLINE);
+						spatialRel.dataProvider = spatialRelationshipOptions_linear;
+						break;
+					}
+					case "Polygon":
+					{
+						myDrawTool.activate(DrawTool.POLYGON);
+						spatialRel.dataProvider = spatialRelationshipOptions_area;
+						break;
+					}
+					case "FreeHand Polygon":
+					{
+						myDrawTool.activate(DrawTool.FREEHAND_POLYGON);
+						spatialRel.dataProvider = spatialRelationshipOptions_area;
+						break;
+					}
+				}
+			}
+			
+			// Step 2. Make sure input polygon is topologically correct
+			protected function myDrawTool_drawEndHandler(event:DrawEvent):void
+			{
+				if (event.graphic.geometry.type == Geometry.EXTENT) // no need to simplify extents
+				{
+					doQuery(event.graphic.geometry);
+				}
+				else
+				{
+					myGeometryService.simplify([ event.graphic.geometry ]);
+				}
+				// Note: As of version 2.0, GeometryService returns geometries (instead of graphics).
+			}
+			
+			// Step 3 (only for polygon and polylines).
+			private function myGeometryService_simplifyCompleteHandler(event:GeometryServiceEvent):void
+			{
+				// Note: As of version 2.0, GeometryService returns geometries (instead of graphics)
+				doQuery(event.result[0] as Geometry);
+			}
+			
+			// Step 4. query using drawn graphic
+			private function doQuery(geom:Geometry):void
+			{
+				try
+				{
+					var query:Query = new Query();
+					query.spatialRelationship = spatialRel.selectedItem.data;
+					query.geometry = geom;
+					query.returnGeometry = true;
+					queryTask.execute(query, new AsyncResponder(onResult, onFault));
+					
+					function onResult(featureSet:FeatureSet, token:Object = null):void
+					{
+						if (featureSet.features.length > 0)
+						{
+							for each (var myGraphic:Graphic in featureSet.features)
+							{
+								myGraphicsLayer.add(myGraphic);
+							}
+						}
+						else
+						{
+							Alert.show("No parcels were found", "Try something else");
+						}
+					}
+					function onFault(info:Object, token:Object = null):void
+					{
+						Alert.show(info.faultString + "\n\n" + info.faultDetail, "queryTask fault " + info.faultCode);
+					}
+				}
+				catch (error:Error)
+				{
+					Alert.show(error.toString(), "myGeometryService_simplifyCompleteHandler error");
+				}
+			}
+			
+			protected function queryTask_faultHandler(event:FaultEvent):void
+			{
+				Alert.show(event.fault.faultString + "\n\n" + event.fault.faultDetail, "QueryTask Fault " + event.fault.faultCode);
+			}
+		]]>
+	</fx:Script>
+	
+	<!-- Start Declarations -->
+	<fx:Declarations>
+		<esri:DrawTool id="myDrawTool"
+					   drawEnd="myDrawTool_drawEndHandler(event)"
+					   graphicsLayer="{myGraphicsLayer}"
+					   map="{map}">
+			<esri:fillSymbol>
+				<esri:SimpleFillSymbol id="yellowParcels"
+									   color="0xFFFF00"
+									   style="solid">
+					<esri:SimpleLineSymbol width="1"/>
+				</esri:SimpleFillSymbol>
+			</esri:fillSymbol>
+		</esri:DrawTool>
+		
+		<esri:GeometryService id="myGeometryService" showBusyCursor="true"
+							  simplifyComplete="myGeometryService_simplifyCompleteHandler(event)"
+							  url="http://localhost:8777/giserver/rest/service/GeometryService"/>
+		
+		<esri:QueryTask id="queryTask"
+						fault="queryTask_faultHandler(event)"
+						url="http://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Portland/ESRI_LandBase_WebMercator/MapServer/1"
+						useAMF="false"/>
+	</fx:Declarations>
+	<!-- End Declarations -->
+	
+	<s:Label text="Select parcels on the map using one of these select modes." width="100%"/>
+	
+	<s:ButtonBar id="tbb"
+				 change="tbb_changeHandler(event)"
+				 fontWeight="bold"
+				 selectedIndex="-1"
+				 valueCommit="if (tbb.selectedIndex == -1) { myDrawTool.deactivate() }">
+		<s:ArrayList>
+			<fx:String>Extent</fx:String>
+			<fx:String>Polyline</fx:String>
+			<fx:String>FreeHand Polyline</fx:String>
+			<fx:String>Polygon</fx:String>
+			<fx:String>FreeHand Polygon</fx:String>
+		</s:ArrayList>
+	</s:ButtonBar>
+	
+	<mx:FormItem label="Search for parcels" visible="{tbb.selectedIndex != -1}">
+		<mx:ComboBox id="spatialRel" dataProvider="{spatialRelationshipOptions_area}"/>
+	</mx:FormItem>
+	
+	<esri:Map id="map">
+		<esri:extent>
+			<esri:Extent xmin="-13669046" ymin="5696984" xmax="-13666179" ymax="5698895">
+				<esri:SpatialReference wkid="102100"/>
+			</esri:Extent>
+		</esri:extent>
+		<esri:ArcGISTiledMapServiceLayer url="http://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Portland/ESRI_LandBase_WebMercator/MapServer"/>
+		<esri:GraphicsLayer id="myGraphicsLayer"/>
+	</esri:Map>
+</s:Application>

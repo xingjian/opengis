@@ -1,0 +1,160 @@
+package com.gi.giserver.rest.service.geometryservice;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.ServletContext;
+import javax.ws.rs.DefaultValue;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import com.gi.giserver.core.config.ConfigManager;
+import com.gi.giserver.core.service.geometryservice.Lengths;
+import com.gi.giserver.core.service.tokenservice.TokenService;
+import com.gi.giserver.core.util.error.ServiceError;
+import com.gi.giserver.core.util.json.EsriJsonGeometryUtil;
+import com.gi.giserver.core.util.json.EsriJsonUtil;
+import com.gi.giserver.rest.html.ServiceHTML;
+import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.GeometryCollection;
+
+/**
+ * @author Wu Yongfeng
+ * 
+ */
+@Path("/GeometryService/lengths")
+public class LengthsResource {
+
+	@Context
+	ServletContext context;
+
+	@GET
+	public String getResult(@QueryParam("token") String token, @QueryParam("f") @DefaultValue("html") String f,
+			@QueryParam("polylines") String polylines, @QueryParam("sr") String sr) {
+		return result(token, f, polylines, sr);
+	}
+
+	@POST
+	public String postResult(@FormParam("token") String token, @FormParam("f") @DefaultValue("html") String f,
+			@FormParam("polylines") String polylines, @FormParam("sr") String sr) {
+		return result(token, f, polylines, sr);
+	}
+
+	private String result(String token, String f, String polylines, String sr) {
+		String result = null;
+
+		try {
+			if (ConfigManager.getServerConfig().isInternalServiceNeedTokenVerify()) {
+				if (!TokenService.verifyToken(token) && !("html".equals(f) && polylines == null)) {
+					return TokenService.TOKEN_INVALID_TIP;
+				}
+			}
+
+			// Handle polylines
+			List<Geometry> geometriesList = EsriJsonGeometryUtil.json2Geometries(polylines);
+			GeometryCollection[] geometryCollections = null;
+			if (geometriesList != null) {
+				geometryCollections = new GeometryCollection[geometriesList.size()];
+				geometriesList.toArray(geometryCollections);
+			}
+
+			// Do lengths
+			double[] lengths = Lengths.lengths(geometryCollections);
+
+			// Various out format
+			if ("json".equals(f)) {
+				result = this.generateJSONResult(lengths, polylines);
+			} else if ("html".equals(f)) {
+				result = this.generateHTMLResult(lengths, token, sr, polylines);
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+
+		return result;
+	}
+
+	private String generateJSONResult(double[] lengths, String polylines) {
+		String result = null;
+
+		try {
+			JSONObject obj = new JSONObject();
+			JSONArray arrayTemp = null;
+
+			obj.put("about", "Powered by GIServer");
+			if (polylines != null && lengths == null) {
+				ArrayList<String> details = new ArrayList<String>();
+				details.add("Result is NULL.");
+				obj.put("error", EsriJsonUtil.generateJSONError(ServiceError.GEOMETRY_NO_RESULT_ERROR, details));
+			} else {
+				arrayTemp = new JSONArray();
+				for (int i = 0; i < lengths.length; i++) {
+					arrayTemp.put(lengths[i]);
+				}
+				obj.put("lengths", arrayTemp);
+			}
+
+			result = obj.toString();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+
+		return result;
+	}
+
+	private String generateHTMLResult(double[] lengths, String token, String sr, String polylines) {
+		String result = "";
+
+		try {
+			String restBody = "";
+			restBody += "<form><table style='border:1px solid #000000;'>";
+			restBody += "<tr><td>Token:</td><td><input size='50' type='text' name='token' value='${TOKEN}' /></td></tr>";
+			restBody += "<tr><td>Spatial Reference (WKID):</td><td><input type='text' name='sr' value='${SR}' /></td></tr>";
+			restBody += "<tr valign='top'><td>Polylines:</td><td><textarea name='polylines' rows='10' cols='50'>${POLYLINES}</textarea></td></tr>";
+			restBody += "<tr><td colspan='2'><input type='submit' value='Compute Lengths' /></td></tr>";
+			restBody += "</table></form>";
+
+			restBody = restBody.replace("${TOKEN}", token == null ? "" : token);
+			restBody = restBody.replace("${SR}", sr == null ? "" : sr);
+			restBody = restBody.replace("${POLYLINES}", polylines == null ? "" : polylines);
+
+			if (!(polylines == null)) {
+				if (lengths != null) {
+					int lengthCount = lengths.length;
+					if (lengthCount > 0) {
+						restBody += "<div style='color:#aaffaa'>Results number : " + lengthCount + "<br/></div><br/>";
+						for (int i = 0; i < lengthCount; i++) {
+							restBody += "<div>" + i + ":";
+							restBody += "<br/>" + lengths[i];
+							restBody += "<br/></div><tr><td><hr/></td></tr>";
+						}
+					} else {
+						restBody += "<div style='color:#ffaaaa'>No results!<br/></div>";
+					}
+				}
+			}
+
+			String contextRoot = context.getContextPath();
+			result += ServiceHTML.getHeader(contextRoot).replace("${TITLE}", "Lengths");
+			result += ServiceHTML.getNav(contextRoot).replace(
+					"${CATALOG}",
+					" &gt; <a href='" + contextRoot
+							+ "/rest/service/GeometryService'>Geometry Service</a> &gt; Lengths");
+			result += ServiceHTML.getH2().replace("${TITLE}", "Lengths");
+			result += ServiceHTML.getRestBody().replace("${RESTBODY}", restBody);
+			result += ServiceHTML.getFooter();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+
+		return result;
+	}
+
+}

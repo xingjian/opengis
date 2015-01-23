@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
+               xmlns:s="library://ns.adobe.com/flex/spark"
+               xmlns:mx="library://ns.adobe.com/flex/mx"
+               xmlns:esri="http://www.esri.com/2008/ags">
+
+    <s:layout>
+        <s:VerticalLayout horizontalAlign="center"/>
+    </s:layout>
+
+    <fx:Script>
+        <![CDATA[
+			import com.esri.ags.FeatureSet;
+			import com.esri.ags.Graphic;
+			import com.esri.ags.events.FindEvent;
+			import com.esri.ags.geometry.Geometry;
+
+            private function doFind():void
+            {				
+                findTask.execute(myFindParams);
+            }
+
+            private function executeCompleteHandler(event:FindEvent):void
+            {
+                myGraphicsLayer.clear();
+                var graphic:Graphic;
+                resultSummary.text = "Found " + event.findResults.length + " results.";
+                var resultCount:int = event.findResults.length;
+                for (var i:Number = 0; i < resultCount; i++)
+                {
+                    graphic = event.findResults[i].feature;
+                    graphic.toolTip = event.findResults[i].foundFieldName + ": " + event.findResults[i].value;
+
+                    switch (graphic.geometry.type)
+                    {
+                        case Geometry.MAPPOINT:
+                            graphic.symbol = smsFind;
+                            break;
+                        case Geometry.POLYLINE:
+                            graphic.symbol = slsFind;
+                            break;
+                        case Geometry.POLYGON:
+                            graphic.symbol = sfsFind;
+                            break;
+                    }
+                    myGraphicsLayer.add(graphic);
+                }
+            }
+        ]]>
+    </fx:Script>
+
+    <fx:Declarations>
+        <!-- Symbol for Find Result as Polyline -->
+        <esri:SimpleLineSymbol id="slsFind"
+                               alpha="0.9"
+                               color="0xFFFF00"
+                               style="solid"
+                               width="3"/>
+
+        <!-- Symbol for Find Result as Point -->
+        <esri:SimpleMarkerSymbol id="smsFind"
+                                 alpha="0.9"
+                                 color="0xFFFF00"
+                                 size="11"
+                                 style="square">
+            <esri:SimpleLineSymbol color="0x000000"/>
+        </esri:SimpleMarkerSymbol>
+
+        <!-- Symbol for Find Result as Polygon -->
+        <esri:SimpleFillSymbol id="sfsFind"
+                               alpha="0.7"
+                               color="0xFFFF00"/>
+
+        <!-- Find Task -->
+        <esri:FindTask id="findTask" disableClientCaching="true"
+                       executeComplete="executeCompleteHandler(event)"
+                       url="http://wuyfwin7:8777/giserver/rest/service/MapService/sample:world"/>
+        <esri:FindParameters id="myFindParams"
+                             contains="true"
+                             layerIds="[0,1,2]"
+                             outSpatialReference="{map.spatialReference}"
+                             returnGeometry="true"
+                             searchFields="[CITY_NAME,CNTRY_NAME]"
+                             searchText="{fText.text}"/>
+    </fx:Declarations>
+
+    <s:BorderContainer backgroundColor="0xDDDDFF"
+                       height="40"
+                       width="100%">
+        <s:layout>
+            <s:HorizontalLayout horizontalAlign="center" verticalAlign="middle"/>
+        </s:layout>
+        <s:Label text="Find text:"/>
+        <s:TextInput id="fText"
+                     enter="doFind()"
+                     maxWidth="400"
+                     text="Beijing"/>
+        <s:Button click="doFind()" label="Find"/>
+    </s:BorderContainer>
+
+    <s:Label id="resultSummary" height="15"/>
+
+    <mx:VDividedBox height="100%" width="100%">
+        <esri:Map id="map">
+            <esri:ArcGISTiledMapServiceLayer url="http://localhost:8777/giserver/rest/service/MapService/sample:world"/>
+            <esri:GraphicsLayer id="myGraphicsLayer"/>
+        </esri:Map>
+        <mx:DataGrid dataProvider="{findTask.executeLastResult}"
+                     height="40%"
+                     width="100%">
+            <mx:columns>
+                <mx:DataGridColumn dataField="layerId"
+                                   headerText="Layer ID"
+                                   width="70"/>
+                <mx:DataGridColumn dataField="layerName" headerText="Layer Name"/>
+                <mx:DataGridColumn dataField="foundFieldName" headerText="Found Field Name"/>
+                <mx:DataGridColumn dataField="value" headerText="Found Field Value"/>
+            </mx:columns>
+        </mx:DataGrid>
+    </mx:VDividedBox>
+
+</s:Application>

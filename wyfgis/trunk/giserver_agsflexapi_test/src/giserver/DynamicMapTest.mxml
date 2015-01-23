@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
+               xmlns:s="library://ns.adobe.com/flex/spark"
+               xmlns:esri="http://www.esri.com/2008/ags" 
+			   applicationComplete="application1_applicationCompleteHandler(event)">
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayList;
+			import mx.events.FlexEvent;
+			[Bindable]private var defs:ArrayList = new ArrayList();			
+
+			protected function application1_applicationCompleteHandler(event:FlexEvent):void
+			{
+				defs.addItem("");
+				defs.addItem("CNTRY_NAME='China'");
+			}
+
+		]]>
+	</fx:Script>
+
+    <esri:Map>
+        <esri:ArcGISDynamicMapServiceLayer
+			url="http://localhost:8777/giserver/rest/service/MapService/sample:world" layerDefinitions="{defs}"/>
+    </esri:Map>
+
+</s:Application>

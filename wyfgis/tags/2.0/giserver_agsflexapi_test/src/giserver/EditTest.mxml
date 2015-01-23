@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application 
+	minWidth="955" minHeight="600" 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:esri="http://www.esri.com/2008/ags" xmlns:symbols="com.esri.ags.symbols.*">
+	
+	<fx:Script>
+		<![CDATA[
+			import com.esri.ags.Graphic;
+			import com.esri.ags.events.DrawEvent;
+			import com.esri.ags.events.FeatureLayerEvent;
+			import com.esri.ags.geometry.Extent;
+			import com.esri.ags.layers.supportClasses.FeatureEditResult;
+			
+			import mx.controls.Alert;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			protected function buttonAddFeature_click(event:MouseEvent):void{
+				if(buttonAddFeature.selected){
+					drawTool.activate(DrawTool.MAPPOINT, false);
+				}else{
+					drawTool.deactivate();
+				}
+			}
+			
+			protected function drawTool_drawEnd(event:DrawEvent):void{
+				var g:Graphic = event.graphic;
+				g.attributes = new Object();
+				g.attributes.NAME = "poi"+new Date();
+				var adds:Array = new Array();
+				adds.push(g);
+				featureLayer0.applyEdits(adds, null, null);
+			}
+			
+			protected function featureLayer0_editsComplete(event:FeatureLayerEvent):void{
+				dynLayer.refresh();
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<esri:Map id="map" panEasingFactor="1">
+		<esri:extent>
+			<esri:Extent xmin="100" xmax="140" ymin="10" ymax="50"/>
+		</esri:extent>
+		<esri:ArcGISDynamicMapServiceLayer id="dynLayer"
+			url="http://localhost:8777/giserver/rest/service/MapService/sample:world"/>
+		<esri:GraphicsLayer id="drawLayer"/>
+	</esri:Map>
+	
+	<s:ToggleButton id="buttonAddFeature" label="Add Feature" click="buttonAddFeature_click(event)" />
+	
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		<esri:DrawTool id="drawTool" 
+					   map="{map}" 
+					   graphicsLayer="{drawLayer}" 
+					   drawEnd="drawTool_drawEnd(event)"/>
+		<esri:FeatureLayer id="featureLayer0"
+						   url="http://localhost:8777/giserver/rest/service/FeatureService/sample:world/0" 
+						   editsComplete="{featureLayer0_editsComplete(event)}" 
+						   fault="trace(event)"/>
+	</fx:Declarations>
+</s:Application>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   xmlns:esri="http://www.esri.com/2008/ags">
+	
+	<s:controlBarLayout>
+		<s:HorizontalLayout horizontalAlign="center"
+							paddingBottom="7"
+							paddingTop="7"/>
+	</s:controlBarLayout>
+	<s:controlBarContent>
+		<s:Button click="bufferCenterOfMap()" label="Buffer Center Of Map"/>
+	</s:controlBarContent>
+	
+	<fx:Declarations>
+		<esri:SimpleFillSymbol id="sfs" color="0xFF0000">
+			<esri:SimpleLineSymbol color="0x000000"/>
+		</esri:SimpleFillSymbol>
+		<esri:GeometryService id="myGeometryService" disableClientCaching="true"
+							  url="http://localhost:8777/giserver/rest/service/GeometryService"/>
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import com.esri.ags.Graphic;
+			import com.esri.ags.SpatialReference;
+			import com.esri.ags.events.GeometryServiceEvent;
+			import com.esri.ags.geometry.MapPoint;
+			import com.esri.ags.geometry.Polygon;
+			import com.esri.ags.tasks.supportClasses.BufferParameters;
+			
+			private function bufferCenterOfMap():void
+			{
+				var myMapCenterPoint:MapPoint = MapPoint(myMap.extent.center);
+				
+				var bufferParameters:BufferParameters = new BufferParameters();
+				// Note: As of version 2.0, the GeometryService input is geometries (instead of graphics).
+				bufferParameters.geometries = [ myMapCenterPoint ];
+				bufferParameters.distances = [ 2000, 4000 ];
+				// Note: As of version 2.0, the buffer constants have been moved to GeometryService.
+				bufferParameters.unit = GeometryService.UNIT_METER;
+				bufferParameters.bufferSpatialReference = new SpatialReference(102100);
+				
+				myGeometryService.addEventListener(GeometryServiceEvent.BUFFER_COMPLETE, bufferCompleteHandler);
+				myGeometryService.buffer(bufferParameters);
+				
+				function bufferCompleteHandler(event:GeometryServiceEvent):void
+				{
+					myGeometryService.removeEventListener(GeometryServiceEvent.BUFFER_COMPLETE, bufferCompleteHandler);
+					// Note: As of version 2.0, GeometryService returns geometries (instead of graphics)
+					for each (var geometry:Polygon in event.result)
+					{
+						var graphic:Graphic = new Graphic();
+						graphic.geometry = geometry;
+						graphic.symbol = sfs;
+						myGraphicsLayer.add(graphic);
+					}
+				}
+			}
+		]]>
+	</fx:Script>
+	
+	<esri:Map id="myMap" crosshairVisible="true">
+		<esri:ArcGISTiledMapServiceLayer url="http://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Portland/ESRI_LandBase_WebMercator/MapServer"/>
+		<esri:GraphicsLayer id="myGraphicsLayer"/>
+	</esri:Map>
+	
+</s:Application>

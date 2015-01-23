@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Map version="2.0"><Name>kanagawa</Name><Wkid>4326</Wkid><AntiAlias>true</AntiAlias><BackgroundColor r="255" g="255" b="255"/><InitialExtent xmin="138.85824049234893" xmax="139.91094328765124" ymin="35.13022027800008" ymax="35.67275444400008"/><Layers><Layer><Name>node</Name><Visible>true</Visible><Editable>false</Editable><DataSourceType>File</DataSourceType><DataSource>data/kanagawa_node.shp</DataSource><Style>sld/node.sld</Style></Layer><Layer><Name>edge</Name><Visible>true</Visible><Editable>false</Editable><DataSourceType>File</DataSourceType><DataSource>data/kanagawa_edge.shp</DataSource><Style>sld/edge.sld</Style></Layer></Layers></Map><!--Wu Yongfeng
+warrenwyf@gmail.com-->

@@ -1,0 +1,97 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="copyright" content="warrenwyf@gmail.com" />
+  <title>GIServer Documentations</title>
+  <link rel="stylesheet" type="text/css" href="../style.css" />
+</head>
+
+<body>
+
+<table width="100%" height="100%" border="0" align="center">
+  <tbody>
+    <tr>
+      <td width="20%"></td>
+      <td width="60%"
+      style="text-align:center;margin-left:auto;margin-right:auto;"><h1>GIServer Documentations</h1>
+      </td>
+      <td width="20%"></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td style="text-align:center;margin-left:auto;margin-right:auto;"><a
+        href="../index_en.html">Back to Index</a></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><hr />
+      </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td align="center"><h2>Manual Deploy (Windows/Linux/...)</h2>
+      </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td align="center"><font size="2">Last modified: 2010/8/1<br />
+	  Author: Wu Yongfeng</font></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>
+      	<dl>GIServer can be deployed manually，you need to install Java 1.5 and a Java web server.</dl>
+      	<dl>
+          <dt>Download Deploy Archive</dt>
+            <dd>Downlad deploy archive from <a href="http://sourceforge.net/projects/giserver/files/"
+              target="_blank">http://sourceforge.net/projects/giserver/files/</a>, the file name will be
+			  "giserver-[version]-deploy.zip", unzip it we will get "giserver.war" and samples, documents, etc.</dd>
+          <dt>Downlad and Install Java Runtime</dt>
+            <dd>Download Java Runtime(JRE/JDK 1.5) from <a href="http://www.oracle.com/technetwork/java/javase/downloads/index-jdk5-jsp-142662.html"
+              target="_blank">http://www.oracle.com/technetwork/java/javase/downloads/index-jdk5-jsp-142662.html</a>, 
+			  install the release according to the instructions included with the it, set an environment variable JAVA_HOME to the pathname of the
+              directory into which you installed the JRE/JDK.</dd>
+			<dd>In product enviroment you should install native JAI libraries for faster map render speed, they can be downloaded from: </dd>
+			<dd>JAI: <a href="https://jai.dev.java.net/binary-builds.html#Release_builds"
+              target="_blank">https://jai.dev.java.net/binary-builds.html#Release_builds</a></dd>
+            <dd>JAI Image I/O: <a href="https://jai-imageio.dev.java.net/binary-builds.html#Release_builds"
+              target="_blank">https://jai-imageio.dev.java.net/binary-builds.html#Release_builds</a></dd>
+          <dt>Download and install a Java Web Server</dt>
+            <dd>Such as Tomcat，notice to choose the version satisfied Java 1.5. Then, install and run it according to the instructions
+              included with the it.</dd>
+          <dt>Deploy "giserver.war"</dt>
+            <dd>Deploy "giserver.war" to your Java web server.</dd>
+          <dt>Edit configuration file</dt>
+            <dd>Change directory to WEB-INF/conf, open file "server.properties", 
+			modify "WEB_ROOT" to your web server address (such as: http://localhost:8080),
+			modify "MAP_SERVICE_DIR"to your map services directory (such as: C\:\\Program Files (x86)\\GIServer\\sample\\data\\mapservices
+			, /home/giserver/data/mapservices, etc.).</dd>
+			<dd>Open file "administrator.properties", modify administrator accounts, only administrators will be allowed to login admin. console. </dd>
+          <dt>Start Up</dt>
+            <dd>Restart application "giserver" in Java web server.</dd>
+            <dd>Visit URL like "http://localhost:8080/giserver/" to ensure that GIServer has been deployed, if succeed you will see a page like this:</dd>
+            <dd><img alt="GIServer index page" src="../_img/giserver_index.png" border="1" /></dd>
+        </dl>
+      </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td align="center"><font size="2">Copyright © GIServer</font></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+</body>
+</html>

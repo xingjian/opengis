@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Map version="2.0">
+<Name>world</Name>
+<Wkid>4326</Wkid>
+<AntiAlias>true</AntiAlias>
+<BackgroundColor r="255" g="255" b="255"/>
+<InitialExtent xmin="-180.0" xmax="180.0" ymin="-90.0" ymax="83.62359619140625"/>
+<Layers>
+<Layer>
+<Name>POI</Name>
+<Visible>true</Visible>
+<Editable>true</Editable>
+<DataSourceType>File</DataSourceType>
+<DataSource>data/poi.shp</DataSource>
+<Style></Style>
+</Layer>
+<Layer>
+<Name>cities</Name>
+<Visible>true</Visible>
+<Editable>false</Editable>
+<DataSourceType>File</DataSourceType>
+<DataSource>data/cities.shp</DataSource>
+<Style>sld/cities.sld</Style>
+</Layer>
+<Layer>
+<Name>continent</Name>
+<Visible>true</Visible>
+<Editable>false</Editable>
+<DataSourceType>File</DataSourceType>
+<DataSource>data/continent.shp</DataSource>
+<Style>sld/continent.sld</Style>
+</Layer>
+</Layers>
+</Map>
+<!--Wu Yongfeng
+warrenwyf@gmail.com-->

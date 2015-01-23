@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="copyright" content="warrenwyf@gmail.com" />
+  <title>GIServer 文档</title>
+  <link rel="stylesheet" type="text/css" href="../style.css" />
+</head>
+
+<body>
+
+<table width="100%" height="100%" border="0" align="center">
+  <tbody>
+    <tr>
+      <td width="20%"></td>
+      <td width="60%"
+      style="text-align:center;margin-left:auto;margin-right:auto;"><h1>GIServer 文档</h1>
+      </td>
+      <td width="20%"></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td style="text-align:center;margin-left:auto;margin-right:auto;"><a
+        href="../index_cn.html">返回目录</a></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><hr />
+      </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td align="center"><h2>管理控制台</h2>
+      </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td align="center"><font size="2">更新: 2010/7/30<br />
+        作者: 吴泳锋</font></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>
+      	<dl>对GIServer的管理在管理控制台中进行，管理控制台可以通过类似 http://localhost:8777/giserver/rest/admin/ 的地址访问到。</dl>
+      	<dl>
+          <dt>登录管理控制台</dt>
+            <dd>管理控制台需要用户输入管理员用户名和密码，这些用户保存在GIServer部署路径下的 WEB-INF/classes/config/administrator.properties 文件中，
+			默认存在一个admin/giserver的用户，部署完GIServer后的第一件事情就应该将这个用户的密码修改掉或删除这个用户。</dd>
+          <dt>服务器管理</dt>
+            <dd>通过“Reload configuration”功能可以加载修改过的服务器参数、服务而无需重启服务器。</dd>
+            <dd><img src="../_img/admin_reconfig.png" /></dd>
+          <dt>地图服务信息和管理</dt>
+            <dd>在管理控制台中可以对地图服务进行启动、停止、重新加载：</dd>
+            <dd><img src="../_img/adminconsole_mapservice.png" /></dd>
+        </dl>
+      </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td align="center"><font size="2">版权所有 © GIServer</font></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+</body>
+</html>
