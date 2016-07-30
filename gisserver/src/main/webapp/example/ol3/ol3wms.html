@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>ol3-wms</title>
+</head>
+<script type="text/javascript" src="../../js/jquery/jquery-1.11.3.min.js"></script>
+<link rel="stylesheet" href="../../js/ol3/ol.css" type="text/css">
+<script type="text/javascript" src="../../js/ol3/ol.js"></script>
+<script type="text/javascript">
+	var map;
+	$(function(){ 
+	    initMap();
+	})
+
+	function initMap(){
+	  map = new ol.Map({
+	      view: new ol.View({
+	      		projection: 'EPSG:4326',
+	      		center: [116,30],
+	      		zoom:10
+	      }),
+		  layers:[
+		        new ol.layer.Tile({
+	              source: new ol.source.TileWMS({
+	                ratio: 1,
+	                url: "http://localhost:8888/gisserver/rest/WMSServer",
+	                params: {FORMAT: 'image/png32',VERSION: "1.3.0", LAYERS: "0",STYLES:"default"}
+	              })
+	           })
+		   ],
+		   target:'map'
+	    }); 
+	  console.log('initMap success!');
+	}
+
+</script>
+<body>
+	<div id="map" style="width:100%;height: 800px"></div>	
+</body>
+</html>
