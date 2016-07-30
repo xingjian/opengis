@@ -13,7 +13,7 @@
 			protected function application1_applicationCompleteHandler(event:FlexEvent):void
 			{
 				defs.addItem("");
-				defs.addItem("CNTRY_NAME='China'");
+				defs.addItem("CNTRY_NAME='china'");
 			}
 
 		]]>
@@ -21,7 +21,7 @@
 
     <esri:Map>
         <esri:ArcGISDynamicMapServiceLayer
-			url="http://localhost:8777/giserver/rest/service/MapService/sample:world" layerDefinitions="{defs}"/>
+			url="http://localhost:9999/giserver/rest/service/MapService/sample:world" layerDefinitions="{defs}"/>
     </esri:Map>
 
 </s:Application>
