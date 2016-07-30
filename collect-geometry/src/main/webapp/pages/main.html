@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>空间数据采集系统</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="../framework/jquery/jquery-1.11.3.min.js"></script>
+	<link href="../framework/bootstrap/css/bootstrap.css" rel="stylesheet" media="screen" />
+	<script src="../framework/bootstrap/js/bootstrap.js"></script>
+	<link rel="stylesheet" href="../framework/v3.10.1/ol.css" type="text/css">
+	<script src="../framework/v3.10.1/ol-debug.js"></script>
+</head>
+<script type="text/javascript">
+
+	Map.prototype.put = function(key, value){
+	this.container[key] = value;
+	}
+
+	Map.prototype.get = function(key){
+	return this.container[key];
+	}
+
+	function Map(){
+		this.container = new Object();
+	}
+
+	var map = null;
+	var mapLayers = new Map();
+	$(function(){ 
+		initMapLayers();
+    	initMap();
+  	});
+	
+	function initMap(){
+		map = new ol.Map({
+	        view: new ol.View({
+		          projection: 'EPSG:900913',
+		          enableRotation:false,
+		          center: [12956861.646487,4865136.8625195],
+		          zoom: 13
+		      }),
+		    layers:[mapLayers.get('gdLayer')],
+		    target:'map',
+		    zoom:10,
+		    controls:[]
+	    });
+	}
+
+	function initMapLayers(){
+		var gdLayer = new ol.layer.Tile({
+			name: "gdLayer",
+			source:new ol.source.XYZ({
+				url: 'http://webrd04.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=7&x={x}&y={y}&z={z}'
+			})
+		});
+		var gdImagePOILayer = new ol.layer.Tile({
+			name: "gdImagePOI",
+			source:new ol.source.XYZ({
+				url: 'http://webst03.is.autonavi.com/appmaptile?size=1&scale=1&style=8&x={x}&y={y}&z={z}'
+			})
+		});
+		var gdImageLayer = new ol.layer.Tile({
+			name: "gdImage",
+			source:new ol.source.XYZ({
+				url: 'http://webst03.is.autonavi.com/appmaptile?size=1&scale=1&style=6&x={x}&y={y}&z={z}'
+			})
+		});
+		var swLayer = new ol.layer.Tile({
+			name: "sw",
+			source:new ol.source.XYZ({
+				url: 'http://182.254.143.172/fmapimg_chi_day/{z}//R12/C25/{z}-{x}-{y}.png'
+			})
+		});
+		mapLayers.put('gdLayer',gdLayer);
+		mapLayers.put('gdImagePOI',gdImagePOILayer);
+		mapLayers.put('gdImage',gdImageLayer);
+		mapLayers.put('sw',swLayer);
+	}
+	 	
+</script>
+<style>
+	.navbar-nav>li>a {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	}
+	.navbar-brand {
+	height: 40px;
+	padding-top: 10px;
+	}
+	.navbar {
+	min-height: 40px;
+	}
+	
+	
+	.navbar-toggle {
+	margin-top: 4px;
+	margin-bottom: 4px;
+	}
+</style>
+<body>
+	<div class="container" style="width:100%">
+  		<div class="row" style="background-color: #3F89EC;bottom:0px">
+    		<div class="col-lg-9">
+    			<table style="width:100%;height:60px">
+    				<tr>
+                        <td width="100%" height="100%">
+                            <h1 class="text-primary">
+                                <strong><label style="color:#eeeeee;padding-left: 10px;vertical-align: middle;height: 100%">空间数据采集系统</label></strong>
+                            </h1>
+                        </td>
+                    </tr>
+                </table>
+    		</div>
+    		<div class="col-lg-3" style="background-color: #3F89EC;bottom:0px;vertical-align: middle">
+	    		<ul class="list-group" style="height:40px;float:right;list-style-type:none;margin-top: 10px">
+					<li><a href="#" style="color:#ffffff">个人信息</a></li>
+	                <li><a href="#" style="color:#ffffff">修改密码</a></li>
+	                <li><a href="#" style="color:#ffffff">退出</a></li>
+				</ul>
+	        </div>
+    	</div>
+    	<div class="row">
+    		<div class="col-lg-12" style="background-color: #E1E6F6;vertical-align: middle">
+			     <ul class="nav navbar-nav">
+				 	<li class="active"><a href="##">采集页面</a></li>
+			        <li><a href="##">关于我们</a></li>
+				 </ul>
+				 <div id="currentTime" style="margin-top:10px;float:right;font-family:'微软雅黑';font-size: 14px;font-weight: bold;vertical-align: middle">
+		                <label style="height:100%;">2015年11月13日 星期五</label>
+		         </div>
+			</div>
+			
+		</div>
+    	<div class="row">
+    		<div class="col-xs-10" style="height:100%">
+    			<div id="map" style="margin-left: -12px;margin-bottom: -5px;margin-right: -30px">
+    				<div class="panel panel-default" style="width: 150px">
+						<div class="panel-heading" style="background-color: #3F89EC;color: #ffffff;width: 150px">图层控制</div>
+					</div>
+    			</div>
+    		</div>
+    		<div class="col-xs-2" style="height:100%">
+    			<div class="container" style="width:100%">
+    				<div class="row">
+	    				<div class="panel panel-default">
+							<div class="panel-heading" style="background-color: #3F89EC;color: #ffffff">热点区域</div>
+								
+						</div>
+    				</div>
+    			</div>
+    		</div>
+		</div>
+		<div class="row" style="height:25px;background-color:#E1E6F6;bottom:0px">
+    		<div class="col-lg-12" style="vertical-align: middle;margin-top: 3px">
+    			<label style="color:#337AB7;text-align:center;width:100%;font-family: '微软雅黑';font-size: 12px">技术支持:北京通途永久</label>
+    		</div>
+		</div>
+    </div>
+</body>
+</html>
