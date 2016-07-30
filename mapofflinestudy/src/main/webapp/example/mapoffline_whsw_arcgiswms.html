@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>GaoDe Maps example</title>
+    <script src="../openlayer/jquery-1.11.3.min.js"></script>
+    <link rel="stylesheet" href="../openlayer/ol.css" type="text/css">
+    <script src="../openlayer/ol.js"></script>
+</head>
+<script type="text/javascript">
+  var map;
+  $(function(){ 
+    initMap();
+  })
+  
+  function initMap(){
+    map = new ol.Map({
+	  controls:[],
+      view: new ol.View({
+      projection: 'EPSG:3857',
+      center: [12728114,3574144],
+      zoom: 13
+      }),
+    layers:[
+        new ol.layer.Tile({
+          source:new ol.source.XYZ({
+            url: 'http://localhost:7777/mapoffline/mapoffline?request=getTile&mapType=whsw&x={x}&y={y}&z={z}'
+          })
+        }),
+        new ol.layer.Image({
+            source: new ol.source.ImageArcGISRest({
+              params: {},
+              url: "http://ttyjbj.ticp.net:6080/arcgis/rest/services/hubei/wuhan_bg/MapServer"
+            })
+          })
+      ],
+    target:'map',
+    zoom:10
+    });  
+  }
+</script>
+<body>
+<div id="map" style="width: 100%;height: 900">
+  
+</div>
+</body>
+</html>

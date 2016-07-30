@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>GaoDe Maps example</title>
+    <script src="../openlayer/jquery-1.11.3.min.js"></script>
+    <link rel="stylesheet" href="../openlayer/ol.css" type="text/css">
+    <script src="../openlayer/ol.js"></script>
+</head>
+<script type="text/javascript">
+  var map;
+  $(function(){ 
+    initMap();
+  })
+  
+  function initMap(){
+    map = new ol.Map({
+	  controls:[],
+      view: new ol.View({
+      projection: 'EPSG:900913',
+      center: [12956861.646487,4865136.8625195],
+      zoom: 13
+      }),
+    layers:[
+        new ol.layer.Tile({
+          source:new ol.source.XYZ({
+            url: 'http://localhost:7777/mapoffline/mapoffline?request=getTile&mapType=gd&lang=zh_cn&size=1&scale=1&style=7&x={x}&y={y}&z={z}'
+          })
+        })
+      ],
+    target:'map',
+    zoom:10
+    });  
+  }
+</script>
+<body>
+<div id="map" style="width: 100%;height: 900">
+  
+</div>
+</body>
+</html>
