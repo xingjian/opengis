@@ -74,7 +74,8 @@ public class RestWMSMapService {
 
 	private byte[] result(String version,String layers,String styles,String srs,String bbox,String width
 			,String height,String format,String request) {
-		logger.info("version:"+version+",layers:"+layers+",styles:"+styles+",srs:"+srs+",bbox:"+bbox+",width:"+width+",height:"+height+",format:"+format+",request:"+request);
+		logger.info("version:"+version
+				+",layers:"+layers+",styles:"+styles+",srs:"+srs+",bbox:"+bbox+",width:"+width+",height:"+height+",format:"+format+",request:"+request);
 		return ("version:"+version+",layers:"+layers+",styles:"+styles+",srs:"+srs+",bbox:"+bbox+",width:"+width+",height:"+height+",format:"+format+",request:"+request).getBytes();
 	}
 	
