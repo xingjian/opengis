@@ -6,14 +6,6 @@
 	http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 	 <servlet>
         	<servlet-name>mapoffline</servlet-name>
-	        <init-param>
-	            <param-name>useCache</param-name>
-	            <param-value>true</param-value>
-	        </init-param>
-	        <init-param>
-	        	<param-name>cacheDir</param-name>
-	        	<param-value>F:\gitworkspace\opengis\mapofflinestudy\src\main\webapp\tiles\</param-value>
-	        </init-param>
 	        <servlet-class>com.tongtu.gis.MapProxyServlet</servlet-class>
 	    </servlet>
         <servlet-mapping>
