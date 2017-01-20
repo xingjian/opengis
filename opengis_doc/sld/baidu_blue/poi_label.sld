@@ -13,8 +13,8 @@
           <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:PropertyIsEqualTo>
               <ogc:PropertyName>name</ogc:PropertyName>
-              <ogc:Literal>天安门</ogc:Literal>
-            </ogc:PropertyIsEqualTo>
+              <ogc:Literal>天安门</ogc:Literal> 
+            </ogc:PropertyIsEqualTo> 
           </ogc:Filter>
           <se:PointSymbolizer>
             <se:Graphic>
