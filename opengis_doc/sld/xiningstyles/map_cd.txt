@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="GBK"?>
+<StyledLayerDescriptor version="1.0.0" 
+ xsi:schemaLocation="http://www.opengis.net/sld StyledLayerDescriptor.xsd" 
+ xmlns="http://www.opengis.net/sld" 
+ xmlns:ogc="http://www.opengis.net/ogc" 
+ xmlns:xlink="http://www.w3.org/1999/xlink" 
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <!-- a Named Layer is the basic building block of an SLD document -->
+  <NamedLayer>
+    <Name>map_cd</Name>
+    <UserStyle>
+    <!-- Styles can have names, titles and abstracts -->
+      <Title>height road Line</Title>
+      <Abstract>style that draws a line</Abstract>
+      <!-- FeatureTypeStyles describe how to render different features -->
+      <!-- A FeatureTypeStyle for rendering lines -->
+      <FeatureTypeStyle>
+        <!--
+        <Rule>
+          <MinScaleDenominator>500000</MinScaleDenominator>
+          <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
+            <ogc:PropertyIsEqualTo>
+              <ogc:PropertyName>LEVEL</ogc:PropertyName>
+              <ogc:Literal>1</ogc:Literal>
+            </ogc:PropertyIsEqualTo>
+          </ogc:Filter>            
+          <LineSymbolizer>
+              <Stroke>
+                  <CssParameter name="stroke">
+                      <ogc:Literal>#EEAA56</ogc:Literal>
+                  </CssParameter>
+                  <CssParameter name="stroke-linecap">
+                      <ogc:Literal>butt</ogc:Literal>
+                  </CssParameter>
+                  <CssParameter name="stroke-linejoin">
+                      <ogc:Literal>miter</ogc:Literal>
+                  </CssParameter>
+                  <CssParameter name="stroke-opacity">
+                      <ogc:Literal>1</ogc:Literal>
+                  </CssParameter>
+                  <CssParameter name="stroke-width">
+                      <ogc:Literal>2.5</ogc:Literal>
+                  </CssParameter>
+              </Stroke>          
+          </LineSymbolizer>
+          
+          <LineSymbolizer>
+              <Stroke>
+                  <CssParameter name="stroke">
+                      <ogc:Literal>#FFD567</ogc:Literal>
+                  </CssParameter>
+                  <CssParameter name="stroke-linecap">
+                      <ogc:Literal>butt</ogc:Literal>
+                  </CssParameter>
+                  <CssParameter name="stroke-linejoin">
+                      <ogc:Literal>miter</ogc:Literal>
+                  </CssParameter>
+                  <CssParameter name="stroke-opacity">
+                      <ogc:Literal>1</ogc:Literal>
+                  </CssParameter>
+                  <CssParameter name="stroke-width">
+                      <ogc:Literal>1</ogc:Literal>
+                  </CssParameter>
+              </Stroke>          
+          </LineSymbolizer>
+        </Rule>        
+        
+        <Rule>
+          <MinScaleDenominator>30000</MinScaleDenominator>
+          <MaxScaleDenominator>150001</MaxScaleDenominator>  
+          <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
+            <ogc:PropertyIsEqualTo>
+              <ogc:PropertyName>LEVEL</ogc:PropertyName>
+              <ogc:Literal>1</ogc:Literal>
+            </ogc:PropertyIsEqualTo>
+          </ogc:Filter>         
+          <LineSymbolizer>
+              <Stroke>
+                  <CssParameter name="stroke">
+                      <ogc:Literal>#F0DCC0</ogc:Literal>
+                  </CssParameter>
+ 
+                  <CssParameter name="stroke-linecap">
+                      <ogc:Literal>butt</ogc:Literal>
+                  </CssParameter>
+                  <CssParameter name="stroke-linejoin">
+                      <ogc:Literal>miter</ogc:Literal>
+                  </CssParameter>
+                  <CssParameter name="stroke-opacity">
+                      <ogc:Literal>0.7</ogc:Literal>
+                  </CssParameter>
+                  <CssParameter name="stroke-width">
+                      <ogc:Literal>2.5</ogc:Literal>
+                  </CssParameter>
+              </Stroke>          
+          </LineSymbolizer>
+          
+          <LineSymbolizer>
+              <Stroke>
+                  <CssParameter name="stroke">
+                      <ogc:Literal>#FFFFFF</ogc:Literal>
+                  </CssParameter>
+                  <CssParameter name="stroke-linecap">
+                      <ogc:Literal>butt</ogc:Literal>
+                  </CssParameter>
+                  <CssParameter name="stroke-linejoin">
+                      <ogc:Literal>miter</ogc:Literal>
+                  </CssParameter>
+                  <CssParameter name="stroke-opacity">
+                      <ogc:Literal>0.8</ogc:Literal>
+                  </CssParameter>
+                  <CssParameter name="stroke-width">
+                      <ogc:Literal>2</ogc:Literal>
+                  </CssParameter>
+              </Stroke>          
+          </LineSymbolizer>
+        </Rule>
+		-->
+        
+        <Rule>
+		  <MaxScaleDenominator>30001</MaxScaleDenominator> 
+          <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
+            <ogc:PropertyIsEqualTo>
+              <ogc:PropertyName>LEVEL</ogc:PropertyName>
+              <ogc:Literal>1</ogc:Literal>
+            </ogc:PropertyIsEqualTo>
+          </ogc:Filter>         
+          <LineSymbolizer>
+              <Stroke>
+                  <CssParameter name="stroke">
+                      <ogc:Literal>#F6D39D</ogc:Literal>
+                  </CssParameter>
+ 
+                  <CssParameter name="stroke-linecap">
+                      <ogc:Literal>butt</ogc:Literal>
+                  </CssParameter>
+                  <CssParameter name="stroke-linejoin">
+                      <ogc:Literal>miter</ogc:Literal>
+                  </CssParameter>
+                  <CssParameter name="stroke-opacity">
+                      <ogc:Literal>1</ogc:Literal>
+                  </CssParameter>
+                  <CssParameter name="stroke-width">
+                      <ogc:Literal>4.0</ogc:Literal>
+                  </CssParameter>
+              </Stroke>          
+          </LineSymbolizer>
+          
+          <LineSymbolizer>
+              <Stroke>
+                  <CssParameter name="stroke">
+                      <ogc:Literal>#FBF0D6</ogc:Literal>
+                  </CssParameter>
+                  <CssParameter name="stroke-linecap">
+                      <ogc:Literal>butt</ogc:Literal>
+                  </CssParameter>
+                  <CssParameter name="stroke-linejoin">
+                      <ogc:Literal>miter</ogc:Literal>
+                  </CssParameter>
+                  <CssParameter name="stroke-opacity">
+                      <ogc:Literal>1</ogc:Literal>
+                  </CssParameter>
+                  <CssParameter name="stroke-width">
+                      <ogc:Literal>3.5</ogc:Literal>
+                  </CssParameter>
+              </Stroke> 
+          </LineSymbolizer>
+        </Rule>        
+        
+        <Rule>
+          <MaxScaleDenominator>30001</MaxScaleDenominator>  
+          <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
+            <ogc:PropertyIsEqualTo>
+              <ogc:PropertyName>LEVEL</ogc:PropertyName>
+              <ogc:Literal>0</ogc:Literal>
+            </ogc:PropertyIsEqualTo>
+          </ogc:Filter>            
+          <LineSymbolizer>
+              <Stroke>
+                  <CssParameter name="stroke">
+                      <ogc:Literal>#F0DCC0</ogc:Literal>
+                  </CssParameter>
+                  <CssParameter name="stroke-linecap">
+                      <ogc:Literal>butt</ogc:Literal>
+                  </CssParameter>
+                  <CssParameter name="stroke-linejoin">
+                      <ogc:Literal>miter</ogc:Literal>
+                  </CssParameter>
+                  <CssParameter name="stroke-opacity">
+                      <ogc:Literal>1</ogc:Literal>
+                  </CssParameter>
+                  <CssParameter name="stroke-width">
+                      <ogc:Literal>4.0</ogc:Literal>
+                  </CssParameter>
+              </Stroke>          
+          </LineSymbolizer>
+          
+          <LineSymbolizer>
+              <Stroke>
+                  <CssParameter name="stroke">
+                      <ogc:Literal>#FFFFFF</ogc:Literal>
+                  </CssParameter>
+                  <CssParameter name="stroke-linecap">
+                      <ogc:Literal>butt</ogc:Literal>
+                  </CssParameter>
+                  <CssParameter name="stroke-linejoin">
+                      <ogc:Literal>miter</ogc:Literal>
+                  </CssParameter>
+                  <CssParameter name="stroke-opacity">
+                      <ogc:Literal>1</ogc:Literal>
+                  </CssParameter>
+                  <CssParameter name="stroke-width">
+                      <ogc:Literal>3.5</ogc:Literal>
+                  </CssParameter>
+              </Stroke>          
+          </LineSymbolizer>
+                  
+        </Rule>       
+        
+        <Rule> 
+          	<MaxScaleDenominator>30001</MaxScaleDenominator> 
+        	<TextSymbolizer>
+              <Label>
+                  <ogc:PropertyName>LXMC</ogc:PropertyName>
+              </Label>
+              <Font>
+                <CssParameter name="font-family">微软雅黑</CssParameter>
+                <CssParameter name="font-size">12</CssParameter>
+              </Font>
+              <LabelPlacement>
+                <PointPlacement>
+                  <AnchorPoint>
+                    <AnchorPointX>0.5</AnchorPointX>
+                    <AnchorPointY>0.5</AnchorPointY>
+                  </AnchorPoint>
+                </PointPlacement>
+              </LabelPlacement>
+
+               <Halo>
+                  <Radius>
+                      <ogc:Literal>2.0</ogc:Literal>
+                  </Radius>
+                  <Fill>
+                      <CssParameter name="fill">
+                          <ogc:Literal>#FFFFFF</ogc:Literal>
+                      </CssParameter>
+                      <CssParameter name="fill-opacity">
+                          <ogc:Literal>0.8</ogc:Literal>
+                      </CssParameter>
+                  </Fill>
+              </Halo>
+              <Fill>
+                  <CssParameter name="fill">
+                      <ogc:Literal>#000000</ogc:Literal>
+                  </CssParameter>
+                  <CssParameter name="fill-opacity">
+                      <ogc:Literal>0.7</ogc:Literal>
+                  </CssParameter>
+              </Fill>
+           
+            
+              <VendorOption name="followLine">true</VendorOption>
+              <VendorOption name="group">true</VendorOption>
+              <VendorOption name="maxDisplacement">50</VendorOption>
+          </TextSymbolizer>            
+        </Rule>          
+        
+      </FeatureTypeStyle>
+    </UserStyle>
+  </NamedLayer>
+</StyledLayerDescriptor>
