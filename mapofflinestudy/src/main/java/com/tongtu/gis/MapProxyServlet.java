@@ -55,7 +55,73 @@ public class MapProxyServlet extends HttpServlet{
                 getGDTile(req,res,mapType);
             }else if("getTile".equals(request)&&mapType.subSequence(0, 3).equals("sw_")){
                 getSWTile(req,res,mapType);
+            }else if("getTile".equals(request)&&mapType.subSequence(0, 4).equals("cus_")){
+                getCusTile(req,res,mapType);
+            }else if("getVectorTile".equals(request)&&mapType.subSequence(0, 3).equals("vt_")){
+                getCusVectorTile(req,res,mapType);
             }
+        }
+    }
+    
+    /**
+     * 返回矢量地图geojson数据
+     * @param req
+     * @param res
+     * @param mapType
+     */
+    private void getCusVectorTile(HttpServletRequest req,HttpServletResponse res, String mapType) {
+        Map<String,String> map = parseParam(req,"baseUrlGD");
+        String x = map.get("x");
+        String y = map.get("y");
+        String z = map.get("z");
+        try{
+            File file = new File(cacheDir+mapType+File.separator+z+File.separator+y+File.separator+x+".geojson");
+            if(!(file.exists() && file.length()>0)){
+                file = new File(cacheDir+mapType+File.separator+"default_nomap.geojson");
+            }
+            FileInputStream fis = new FileInputStream(file);
+            BufferedInputStream fb = new BufferedInputStream(fis);
+            byte[] data = new byte[1024];
+            int c = 0;
+            while ((c=fb.read(data))!=-1){
+                res.getOutputStream().write(data,0,c);
+            }
+            fb.close();
+            res.getOutputStream().flush();
+            res.getOutputStream().close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 获取自定义切片服务
+     * @param req
+     * @param res
+     * @param mapType
+     */
+    private void getCusTile(HttpServletRequest req,HttpServletResponse res,String mapType){
+        try {
+            Map<String,String> map = parseParam(req,"baseUrlGD");
+            String x = map.get("x");
+            String y = map.get("y");
+            String z = map.get("z");
+            File file = new File(cacheDir+mapType+File.separator+z+File.separator+y+File.separator+x+".png");
+            if(!(file.exists() && file.length()>0)){
+                file = new File(cacheDir+mapType+File.separator+"default_nomap.png");
+            }
+            FileInputStream fis = new FileInputStream(file);
+            BufferedInputStream fb = new BufferedInputStream(fis);
+            byte[] data = new byte[1024];
+            int c = 0;
+            while ((c=fb.read(data))!=-1){
+                res.getOutputStream().write(data,0,c);
+            }
+            fb.close();
+            res.getOutputStream().flush();
+            res.getOutputStream().close();
+        }catch (Exception e) {
+            e.printStackTrace();
         }
     }
     
