@@ -181,7 +181,7 @@ public class MapProxyServlet extends HttpServlet{
     
     public void getTileFile(String maptype,HttpServletRequest req,HttpServletResponse res,String x,String y,String z){
         try {
-            File file = new File(cacheDir+maptype+File.separator+z+File.separator+x+File.separator+y+".png");
+            File file = new File(cacheDir+maptype+File.separator+z+File.separator+y+File.separator+x+".png");
             if(file.exists() && file.length()>0){
                 FileInputStream fis = new FileInputStream(file);
                 BufferedInputStream fb = new BufferedInputStream(fis);
@@ -194,11 +194,11 @@ public class MapProxyServlet extends HttpServlet{
                 res.getOutputStream().flush();
                 res.getOutputStream().close();
             }else {
-                File f = new File(cacheDir+maptype+File.separator+z+File.separator+x);
+                File f = new File(cacheDir+maptype+File.separator+z+File.separator+y);
                 if(!f.exists()){
                     f.mkdirs();
                 }
-                File f1 = new File(cacheDir+maptype+File.separator+z+File.separator+x+File.separator+y+".png");
+                File f1 = new File(cacheDir+maptype+File.separator+z+File.separator+y+File.separator+x+".png");
                 FileOutputStream fos = new FileOutputStream(f1);
                 BufferedOutputStream fbo = new BufferedOutputStream(fos);
                 String urlstr = "";
